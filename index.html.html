@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Creative Alone Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@300;400;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
+
+body{
+  background:#030303;
+  color:#fff;
+  overflow-x:hidden;
+  font-family:'Space Grotesk',Inter,sans-serif;
+}
+
+/* ══════════════════════════════
+   PHYSICAL GRAIN TEXTURE OVERLAY
+══════════════════════════════ */
+.grain{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  opacity:0.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+  mix-blend-mode:soft-light;
+  animation:grainShift 0.15s steps(1) infinite;
+}
+@keyframes grainShift{
+  0%  {background-position:0 0;}
+  20% {background-position:-40px 20px;}
+  40% {background-position:20px -30px;}
+  60% {background-position:-10px 40px;}
+  80% {background-position:35px -15px;}
+  100%{background-position:-25px 10px;}
+}
+
+/* ══════════════════════════════
+   DEEP BG DEPTH  
+══════════════════════════════ */
+body::before{
+  content:"";position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse at 15% 15%, rgba(0,255,179,0.28) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 25%, rgba(0,140,255,0.22) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 65%, rgba(0,210,240,0.14) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 85%, rgba(255,195,90,0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 10% 80%, rgba(0,160,200,0.12) 0%, transparent 50%);
+  filter:blur(80px);z-index:-2;
+  animation:bgPulse 18s infinite alternate ease-in-out;
+}
+@keyframes bgPulse{
+  0%  {transform:scale(1)   rotate(0deg);}
+  50% {transform:scale(1.18) rotate(4deg);}
+  100%{transform:scale(1.35) rotate(-4deg);}
+}
+
+/* fine grid */
+body::after{
+  content:"";position:fixed;inset:0;
+  background:
+    repeating-linear-gradient(0deg,   transparent,transparent 2px,rgba(0,255,179,0.025) 2px,rgba(0,255,179,0.025) 4px),
+    repeating-linear-gradient(90deg,  transparent,transparent 2px,rgba(0,140,255,0.020) 2px,rgba(0,140,255,0.020) 4px);
+  z-index:-1;opacity:0.45;
+  animation:gridCrawl 25s linear infinite;
+}
+@keyframes gridCrawl{
+  from{background-position:0 0,0 0;}
+  to  {background-position:60px 60px,-60px -60px;}
+}
+
+/* ══════════════════════════════
+   NAV
+══════════════════════════════ */
+nav{
+  position:fixed;top:16px;left:50%;transform:translateX(-50%);
+  display:flex;gap:4px;padding:5px;border-radius:22px;
+  background:rgba(8,8,8,0.55);backdrop-filter:blur(40px) saturate(200%);
+  border:1px solid rgba(255,255,255,0.14);
+  box-shadow:0 8px 30px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12),0 0 30px rgba(0,255,179,0.08);
+  z-index:1000;
+  max-width:calc(100vw - 30px);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none;}
+
+nav a{
+  color:rgba(255,255,255,0.55);text-decoration:none;
+  font-size:12px;font-weight:600;
+  padding:9px 16px;border-radius:16px;
+  transition:all 0.35s cubic-bezier(0.175,0.885,0.32,1.275);
+  position:relative;letter-spacing:0.4px;white-space:nowrap;
+}
+nav a:hover{background:rgba(255,255,255,0.07);color:#fff;transform:translateY(-1px);}
+nav a.active{
+  background:linear-gradient(135deg,rgba(0,255,179,0.22),rgba(0,200,150,0.12));
+  color:#00ffb3;
+  box-shadow:0 0 18px rgba(0,255,179,0.35),inset 0 1px 0 rgba(255,255,255,0.18);
+  border:1px solid rgba(0,255,179,0.28);
+}
+
+/* ══════════════════════════════
+   SECTIONS
+══════════════════════════════ */
+section{
+  min-height:100vh;scroll-snap-align:start;
+  display:flex;justify-content:center;align-items:center;flex-direction:column;
+  padding:100px 20px 60px;position:relative;
+  opacity:0;transform:translateY(40px);transition:0.9s ease;
+}
+section.show{opacity:1;transform:translateY(0);}
+
+/* ══════════════════════════════
+   ARTISTIC SRT LAYER
+══════════════════════════════ */
+.srt-layer{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.srt-word{
+  position:absolute;
+  font-family:'Space Grotesk',sans-serif;font-weight:800;
+  text-transform:uppercase;letter-spacing:0.22em;
+  color:transparent;
+  white-space:nowrap;pointer-events:none;user-select:none;
+  animation:srtRise linear infinite;
+}
+.srt-word.type-a{-webkit-text-stroke:1px rgba(0,255,179,0.10);}
+.srt-word.type-b{-webkit-text-stroke:1px rgba(0,160,255,0.09);animation-name:srtCrawl;}
+.srt-word.type-c{-webkit-text-stroke:1px rgba(255,195,90,0.08);}
+
+@keyframes srtRise{
+  0%  {opacity:0;transform:translateY(5vh) scale(0.96);}
+  8%  {opacity:1;}
+  88% {opacity:0.5;}
+  100%{opacity:0;transform:translateY(-115vh) scale(1.04);}
+}
+@keyframes srtCrawl{
+  0%  {opacity:0;transform:translateX(-8%) skewX(-5deg);}
+  7%  {opacity:0.7;}
+  93% {opacity:0.3;}
+  100%{opacity:0;transform:translateX(115vw) skewX(-5deg);}
+}
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.hero{
+  padding:90px 60px;border-radius:44px;
+  background:linear-gradient(150deg,rgba(14,14,14,0.72),rgba(5,5,5,0.5));
+  backdrop-filter:blur(60px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.16);
+  text-align:center;max-width:960px;width:100%;position:relative;
+  box-shadow:0 24px 70px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.18),0 0 100px rgba(0,255,179,0.12);
+  transition:all 0.6s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+.hero::before{
+  content:"";position:absolute;inset:-2px;border-radius:44px;
+  background:linear-gradient(135deg,rgba(0,255,179,0.18),rgba(0,140,255,0.12),rgba(0,210,240,0.08));
+  z-index:-1;opacity:0.45;filter:blur(22px);
+  animation:heroGlow 5s infinite alternate;
+}
+@keyframes heroGlow{0%{opacity:0.25;transform:scale(1);}100%{opacity:0.55;transform:scale(1.015);}}
+.hero:hover{transform:translateY(-8px);box-shadow:0 36px 90px rgba(0,0,0,0.7),0 0 120px rgba(0,255,179,0.2);}
+
+.title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(42px,10vw,86px);font-weight:800;
+  background:linear-gradient(135deg,#ffffff 0%,#00ffb3 45%,#008cff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  position:relative;
+  animation:titleGlow 5s infinite alternate ease-in-out;
+  text-transform:uppercase;letter-spacing:3px;
+}
+.title::before{
+  content:attr(data-text);position:absolute;left:2px;top:2px;z-index:-1;
+  background:linear-gradient(135deg,rgba(0,255,179,0.4),rgba(0,140,255,0.3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:blur(10px);
+}
+@keyframes titleGlow{
+  0%  {filter:drop-shadow(0 0 18px rgba(0,255,179,0.5));}
+  50% {filter:drop-shadow(0 0 35px rgba(0,140,255,0.6)) drop-shadow(0 0 55px rgba(0,200,255,0.35));}
+  100%{filter:drop-shadow(0 0 28px rgba(0,255,179,0.65));}
+}
+
+.srt-subtitle{
+  display:block;margin-top:12px;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(12px,1.5vw,16px);font-weight:400;font-style:italic;
+  letter-spacing:0.28em;text-transform:uppercase;
+  color:transparent;
+  -webkit-text-stroke:0.7px rgba(255,255,255,0.45);
+  animation:subtitleReveal 2.2s ease forwards;animation-delay:1s;opacity:0;
+}
+@keyframes subtitleReveal{
+  0%  {opacity:0;letter-spacing:0.55em;filter:blur(8px);}
+  70% {filter:blur(1px);}
+  100%{opacity:1;letter-spacing:0.28em;filter:blur(0);}
+}
+
+.studio{
+  font-family:'Space Grotesk',sans-serif;
+  color:#00ffb3;margin-top:18px;font-size:clamp(16px,4vw,30px);font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  text-shadow:0 0 20px rgba(0,255,179,0.55),0 0 40px rgba(0,255,179,0.28);
+  position:relative;display:inline-block;
+}
+.studio::after{
+  content:"";position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+  width:55%;height:1.5px;
+  background:linear-gradient(90deg,transparent,#00ffb3,transparent);
+  box-shadow:0 0 12px rgba(0,255,179,0.8);
+}
+.tag{color:rgba(255,255,255,0.65);margin-top:22px;font-size:clamp(12px,1.8vw,16px);font-weight:400;letter-spacing:5px;text-transform:uppercase;}
+
+.btn{
+  margin-top:36px;padding:17px 52px;border-radius:999px;border:none;
+  background:linear-gradient(135deg,rgba(0,255,179,0.18),rgba(0,200,150,0.12));
+  backdrop-filter:blur(20px);color:#fff;cursor:pointer;
+  transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+  font-size:14px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  position:relative;overflow:hidden;
+  border:1px solid rgba(0,255,179,0.28);
+  box-shadow:0 4px 22px rgba(0,255,179,0.25),inset 0 1px 0 rgba(255,255,255,0.18);
+}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.18),transparent);transform:translateX(-100%);transition:0.55s;}
+.btn:hover::before{transform:translateX(100%);}
+.btn:hover{transform:translateY(-4px) scale(1.06);box-shadow:0 10px 42px rgba(0,255,179,0.45),0 0 60px rgba(0,255,179,0.25);}
+
+/* ══════════════════════════════
+   SECTION H1
+══════════════════════════════ */
+h1{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(28px,5.5vw,58px);font-weight:800;margin-bottom:16px;text-align:center;
+  background:linear-gradient(135deg,#ffffff 0%,#00ffb3 50%,#008cff 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:2px;text-transform:uppercase;position:relative;
+  filter:drop-shadow(0 0 18px rgba(0,255,179,0.35));
+}
+h1::after{
+  content:"";position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);
+  width:100px;height:3px;
+  background:linear-gradient(90deg,transparent,#00ffb3,#008cff,transparent);
+  border-radius:2px;box-shadow:0 0 12px rgba(0,255,179,0.6);
+}
+
+.section-sub{
+  font-size:13px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,0.32);margin-top:22px;margin-bottom:0;
+  font-family:'Playfair Display',serif;font-style:italic;
+}
+
+/* ══════════════════════════════
+   GRID & CARD (services/about)
+══════════════════════════════ */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;width:100%;max-width:1080px;margin-top:44px;padding:0 20px;}
+
+.card{
+  padding:44px 32px;border-radius:26px;
+  background:linear-gradient(150deg,rgba(18,18,18,0.6),rgba(8,8,8,0.4));
+  backdrop-filter:blur(30px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.10);
+  transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+  position:relative;text-align:center;
+  font-size:18px;font-weight:700;letter-spacing:1px;
+  transform-style:preserve-3d;cursor:pointer;overflow:hidden;
+  box-shadow:0 8px 36px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.card::before{content:"";position:absolute;inset:-2px;border-radius:26px;background:linear-gradient(135deg,rgba(0,255,179,0.12),rgba(0,140,255,0.08));z-index:-1;opacity:0;transition:0.5s;filter:blur(14px);}
+.card::after{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,0.07) 50%,transparent 60%);transform:rotate(45deg);transition:0.6s;}
+.card:hover{transform:translateY(-22px) scale(1.05) rotateX(4deg);border-color:rgba(0,255,179,0.38);}
+.card:hover::before{opacity:1;}
+.card:hover::after{left:100%;top:100%;}
+
+/* ══════════════════════════════
+   PLANS — NO PRICE
+══════════════════════════════ */
+.plans-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+  gap:22px;width:100%;max-width:1080px;margin-top:50px;padding:0 20px;
+}
+.plan-card{
+  border-radius:30px;padding:38px 28px 36px;
+  background:linear-gradient(155deg,rgba(14,14,14,0.75),rgba(5,5,5,0.55));
+  backdrop-filter:blur(40px) saturate(160%);
+  border:1px solid rgba(255,255,255,0.09);
+  position:relative;overflow:hidden;
+  transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+  box-shadow:0 12px 44px rgba(0,0,0,0.45),inset 0 1px 0 rgba(255,255,255,0.08);
+  display:flex;flex-direction:column;align-items:center;
+}
+.plan-card.basic::before  {content:"";position:absolute;inset:-1px;border-radius:30px;background:linear-gradient(135deg,rgba(0,200,255,0.22),rgba(0,255,179,0.10),transparent);z-index:-1;opacity:0.7;filter:blur(14px);}
+.plan-card.standard::before{content:"";position:absolute;inset:-1px;border-radius:30px;background:linear-gradient(135deg,rgba(0,255,179,0.32),rgba(0,170,255,0.18),transparent);z-index:-1;opacity:0.9;filter:blur(16px);}
+.plan-card.premium::before {content:"";position:absolute;inset:-1px;border-radius:30px;background:linear-gradient(135deg,rgba(255,195,90,0.30),rgba(0,255,179,0.16),transparent);z-index:-1;opacity:1;filter:blur(18px);}
+.plan-card.standard{border-color:rgba(0,255,179,0.22);transform:scale(1.035);box-shadow:0 16px 60px rgba(0,0,0,0.55),0 0 50px rgba(0,255,179,0.12);}
+.plan-card:hover{transform:translateY(-14px) scale(1.03);}
+.plan-card.standard:hover{transform:translateY(-14px) scale(1.065);}
+
+.plan-badge{position:absolute;top:16px;right:16px;background:linear-gradient(135deg,#00ffb3,#008cff);color:#030303;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:99px;box-shadow:0 4px 14px rgba(0,255,179,0.4);}
+
+.plan-icon{font-size:38px;margin-bottom:14px;filter:drop-shadow(0 0 12px rgba(0,255,179,0.45));animation:iconFloat 3s ease-in-out infinite alternate;}
+@keyframes iconFloat{from{transform:translateY(0);}to{transform:translateY(-5px);}}
+
+.plan-name{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:20px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  background:linear-gradient(135deg,#fff 30%,#00ffb3);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:5px;
+}
+.plan-card.premium .plan-name{background:linear-gradient(135deg,#fff 30%,#ffc35a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.plan-tagline{font-size:11px;color:rgba(255,255,255,0.38);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:26px;font-weight:400;}
+
+.plan-features{list-style:none;padding:0;margin:0;width:100%;}
+.plan-features li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13.5px;color:rgba(255,255,255,0.80);font-weight:500;}
+.plan-features li:last-child{border-bottom:none;}
+.plan-features .chk{width:18px;height:18px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,rgba(0,255,179,0.22),rgba(0,180,255,0.12));border:1px solid rgba(0,255,179,0.32);display:flex;align-items:center;justify-content:center;font-size:9px;color:#00ffb3;}
+
+/* ══════════════════════════════
+   PREVIOUS WORK
+══════════════════════════════ */
+.work-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:22px;width:100%;max-width:1080px;margin-top:48px;padding:0 20px;
+}
+.work-card{
+  border-radius:22px;overflow:hidden;
+  background:rgba(10,10,10,0.6);
+  border:1px solid rgba(255,255,255,0.08);
+  transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);
+  box-shadow:0 8px 36px rgba(0,0,0,0.4);
+  cursor:pointer;position:relative;
+}
+.work-card::before{content:"";position:absolute;inset:-1px;border-radius:22px;background:linear-gradient(135deg,rgba(0,255,179,0.12),rgba(0,140,255,0.08),transparent);z-index:-1;opacity:0;transition:0.5s;filter:blur(12px);}
+.work-card:hover{transform:translateY(-16px) scale(1.02);border-color:rgba(0,255,179,0.28);box-shadow:0 22px 60px rgba(0,0,0,0.55),0 0 40px rgba(0,255,179,0.12);}
+.work-card:hover::before{opacity:1;}
+
+.work-thumb{
+  width:100%;height:200px;position:relative;overflow:hidden;
+}
+.work-thumb::after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:36px;color:rgba(255,255,255,0);transition:0.4s;background:rgba(0,0,0,0);}
+.work-card:hover .work-thumb::after{color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.35);text-shadow:0 0 30px rgba(0,255,179,0.8);}
+
+.work-info{padding:20px 22px 24px;}
+.work-type{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#00ffb3;font-weight:600;opacity:0.8;}
+.work-title{font-size:17px;font-weight:700;margin:6px 0 4px;color:#fff;letter-spacing:0.5px;}
+.work-year{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1px;}
+
+/* ══════════════════════════════
+   CLIENT REVIEWS
+══════════════════════════════ */
+.rating-hero{
+  text-align:center;margin-top:40px;margin-bottom:14px;
+}
+.rating-big{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:86px;font-weight:800;line-height:1;
+  background:linear-gradient(135deg,#fff 20%,#00ffb3 60%,#008cff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 30px rgba(0,255,179,0.4));
+}
+.rating-stars-big{font-size:30px;letter-spacing:6px;color:#ffc35a;text-shadow:0 0 14px rgba(255,195,90,0.6);margin:6px 0;}
+.rating-count{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);}
+
+.reviews-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:20px;width:100%;max-width:1080px;margin-top:36px;padding:0 20px;
+}
+.review-card{
+  padding:30px 26px;border-radius:24px;
+  background:linear-gradient(150deg,rgba(14,14,14,0.68),rgba(5,5,5,0.45));
+  backdrop-filter:blur(30px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.09);
+  transition:all 0.45s ease;
+  box-shadow:0 8px 32px rgba(0,0,0,0.38);
+  position:relative;overflow:hidden;
+}
+.review-card::before{content:"";position:absolute;top:-60px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,179,0.07),transparent 70%);pointer-events:none;}
+.review-card:hover{transform:translateY(-10px);border-color:rgba(0,255,179,0.2);box-shadow:0 18px 50px rgba(0,0,0,0.5),0 0 30px rgba(0,255,179,0.1);}
+
+.review-stars{font-size:16px;letter-spacing:3px;color:#ffc35a;text-shadow:0 0 8px rgba(255,195,90,0.5);margin-bottom:14px;}
+.review-text{font-size:14px;line-height:1.85;color:rgba(255,255,255,0.78);font-weight:400;font-style:italic;margin-bottom:20px;position:relative;}
+.review-text::before{content:"\201C";font-family:'Playfair Display',serif;font-size:48px;color:rgba(0,255,179,0.2);position:absolute;top:-10px;left:-6px;line-height:1;}
+.reviewer{display:flex;align-items:center;gap:12px;border-top:1px solid rgba(255,255,255,0.07);padding-top:16px;}
+.reviewer-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(0,255,179,0.25),rgba(0,140,255,0.2));border:1px solid rgba(0,255,179,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#00ffb3;flex-shrink:0;}
+.reviewer-name{font-size:14px;font-weight:700;color:#fff;display:block;}
+.reviewer-proj{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:2px;}
+
+/* ══════════════════════════════
+   INFO
+══════════════════════════════ */
+.info-content{
+  max-width:940px;padding:58px 48px;border-radius:40px;
+  background:linear-gradient(150deg,rgba(14,14,14,0.72),rgba(5,5,5,0.5));
+  backdrop-filter:blur(55px) saturate(180%);border:1px solid rgba(255,255,255,0.16);
+  text-align:left;position:relative;
+  box-shadow:0 20px 65px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.14),0 0 80px rgba(0,255,179,0.08);
+}
+.info-content::before{content:"";position:absolute;inset:-2px;border-radius:40px;background:linear-gradient(135deg,rgba(0,255,179,0.12),rgba(0,140,255,0.08),rgba(0,200,240,0.06));z-index:-1;opacity:0.5;filter:blur(20px);}
+.info-content h2{font-size:clamp(20px,3.5vw,36px);background:linear-gradient(135deg,#00ffb3,#008cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:38px;margin-bottom:18px;font-weight:800;letter-spacing:1px;}
+.info-content h2:first-of-type{margin-top:0;}
+.info-content p{font-size:16px;line-height:2;color:rgba(255,255,255,0.82);margin-bottom:16px;}
+.info-content ul{list-style:none;padding:0;margin-top:18px;}
+.info-content ul li{padding:16px 22px;margin-bottom:10px;background:linear-gradient(135deg,rgba(0,255,179,0.07),rgba(0,140,255,0.04));backdrop-filter:blur(10px);border-radius:14px;border-left:3px solid #00ffb3;font-size:15px;color:rgba(255,255,255,0.88);font-weight:500;transition:0.3s;box-shadow:0 3px 12px rgba(0,0,0,0.2);}
+.info-content ul li:hover{transform:translateX(8px);background:linear-gradient(135deg,rgba(0,255,179,0.13),rgba(0,140,255,0.08));}
+.info-content ul li::before{content:"✓ ";color:#00ffb3;font-weight:bold;margin-right:10px;}
+
+/* ══════════════════════════════
+   CURSOR
+══════════════════════════════ */
+#mouseCursor{
+  position:fixed;width:22px;height:22px;border-radius:50%;
+  background:rgba(0,230,200,0.16);backdrop-filter:blur(8px);
+  border:1.5px solid rgba(0,230,200,0.42);pointer-events:none;z-index:9999;
+  transition:width 0.2s ease,height 0.2s ease,background 0.2s ease;
+  transform:translate(-50%,-50%);filter:blur(0.4px);
+  box-shadow:0 0 10px rgba(0,220,190,0.28),0 0 22px rgba(0,200,240,0.12);
+}
+#mouseCursor::before{content:"";position:absolute;inset:-8px;border-radius:50%;background:radial-gradient(circle,rgba(0,210,200,0.1),transparent 70%);animation:cursorPulse 2s infinite;}
+#mouseCursor::after{content:"";position:absolute;inset:5px;border-radius:50%;background:rgba(255,255,255,0.45);}
+@keyframes cursorPulse{0%,100%{transform:scale(1);opacity:0.5;}50%{transform:scale(1.7);opacity:0.12;}}
+
+/* ══════════════════════════════
+   SCROLL PROGRESS
+══════════════════════════════ */
+#scrollProgress{
+  position:fixed;top:0;left:0;width:0%;height:2.5px;
+  background:linear-gradient(90deg,rgba(0,240,200,0.9),rgba(0,190,255,0.9),rgba(100,240,220,0.9));
+  z-index:10001;filter:blur(0.4px);
+  box-shadow:0 0 10px rgba(0,220,200,0.6),0 0 20px rgba(0,190,255,0.4);
+  transition:width 0.08s ease;
+}
+
+/* ══════════════════════════════
+   WHATSAPP
+══════════════════════════════ */
+.whatsapp{
+  position:fixed;bottom:32px;right:32px;padding:14px 26px;
+  background:linear-gradient(135deg,#25D366,#1ead57);color:#fff;border-radius:50px;
+  font-weight:700;font-size:14px;text-decoration:none;
+  box-shadow:0 8px 28px rgba(37,211,102,0.5),0 0 36px rgba(37,211,102,0.28);
+  transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:1001;
+  border:2px solid rgba(255,255,255,0.18);letter-spacing:0.5px;display:flex;align-items:center;gap:7px;
+}
+.whatsapp:hover{transform:translateY(-5px) scale(1.1);box-shadow:0 14px 40px rgba(37,211,102,0.65),0 0 55px rgba(37,211,102,0.4);}
+
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+@media(max-width:768px){
+  nav a{font-size:10px;padding:7px 10px;}
+  .hero{padding:55px 24px;}
+  .grid,.plans-grid,.work-grid,.reviews-grid{grid-template-columns:1fr;}
+  .info-content{padding:28px 18px;}
+  .plan-card.standard{transform:scale(1);}
+  .rating-big{font-size:64px;}
+}
+</style>
+</head>
+<body>
+
+<!-- GRAIN TEXTURE -->
+<div class="grain"></div>
+
+<!-- SRT ARTISTIC TEXT -->
+<div class="srt-layer" id="srtLayer"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#home"          class="active">Home</a>
+  <a href="#about">About Our Service</a>
+  <a href="#services">Services</a>
+  <a href="#prev-work">Previous Work</a>
+  <a href="#plans">Plans</a>
+  <a href="#reviews">Reviews</a>
+  <a href="#info">Info</a>
+</nav>
+
+<!-- HOME -->
+<section id="home">
+  <div class="hero">
+    <h1 class="title" data-text="Taiyan Noor">Taiyan Noor</h1>
+    <span class="srt-subtitle">frame by frame — vision to reality</span>
+    <div class="studio">Creative Alone Studio</div>
+    <div class="tag">Cinematic &nbsp;•&nbsp; Motion &nbsp;•&nbsp; Storytelling</div>
+    <button class="btn">▶ View Showreel</button>
+  </div>
+</section>
+
+<!-- ABOUT OUR SERVICE -->
+<section id="about">
+  <h1>About Our Service</h1>
+  <p class="section-sub">The Art of Visual Storytelling</p>
+  <div class="grid" style="margin-top:44px;">
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">🎬</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:10px;">Cinematic Editing</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:400;line-height:1.8;">Professional cuts with cinematic pacing and rhythm that keeps audiences captivated.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">✨</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:10px;">Motion Graphics</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:400;line-height:1.8;">Dynamic animations and title sequences crafted with precision and creative flair.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">📖</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:10px;">Storytelling</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:400;line-height:1.8;">Every frame tells a story — we shape your raw footage into a compelling narrative.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:14px;">🎨</div>
+      <div style="font-size:16px;font-weight:700;margin-bottom:10px;">Color Grading</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:400;line-height:1.8;">Film-grade color correction that gives your footage its unique cinematic look.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <h1>Services</h1>
+  <p class="section-sub">What We Deliver</p>
+  <div class="grid">
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:12px;">✂️</div>Video Editing
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:12px;">💥</div>VFX
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:12px;">🎨</div>Color Grading
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:12px;">🎵</div>Sound Design
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:12px;">🎞️</div>Brand Films
+    </div>
+    <div class="card">
+      <div style="font-size:28px;margin-bottom:12px;">🎤</div>Music Videos
+    </div>
+  </div>
+</section>
+
+<!-- PREVIOUS WORK -->
+<section id="prev-work">
+  <h1>Previous Work</h1>
+  <p class="section-sub">Selected Projects</p>
+  <div class="work-grid">
+
+    <div class="work-card">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#010f08,#003320 40%,#00ffb3 200%);"></div>
+      <div class="work-info">
+        <span class="work-type">Brand Film</span>
+        <div class="work-title">Echoes of Motion</div>
+        <span class="work-year">2024</span>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#05080f,#001428 40%,#0088ff 200%);"></div>
+      <div class="work-info">
+        <span class="work-type">Music Video</span>
+        <div class="work-title">Neon Frequency</div>
+        <span class="work-year">2024</span>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#0f0800,#1a0a00 40%,#ffc35a 200%);"></div>
+      <div class="work-info">
+        <span class="work-type">Documentary</span>
+        <div class="work-title">City of Layers</div>
+        <span class="work-year">2023</span>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#06000f,#100020 40%,#a855f7 200%);"></div>
+      <div class="work-info">
+        <span class="work-type">Commercial</span>
+        <div class="work-title">Silent Campaign</div>
+        <span class="work-year">2023</span>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#000a0f,#001520 40%,#00d4ff 200%);"></div>
+      <div class="work-info">
+        <span class="work-type">Short Film</span>
+        <div class="work-title">After the Rain</div>
+        <span class="work-year">2023</span>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-thumb" style="background:linear-gradient(135deg,#080c00,#111800 40%,#a3e635 200%);"></div>
+      <div class="work-info">
+        <span class="work-type">Event Coverage</span>
+        <div class="work-title">Momentum Live</div>
+        <span class="work-year">2022</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PLANS — NO PRICE -->
+<section id="plans">
+  <h1>Our Plans</h1>
+  <p class="section-sub">Choose Your Package</p>
+
+  <div class="plans-grid">
+
+    <div class="plan-card basic">
+      <div class="plan-icon">🎬</div>
+      <div class="plan-name">Basic</div>
+      <div class="plan-tagline">Starter Pack</div>
+      <ul class="plan-features">
+        <li><span class="chk">✓</span> Basic Video Editing</li>
+        <li><span class="chk">✓</span> Simple Color Correction</li>
+        <li><span class="chk">✓</span> Background Music Add</li>
+        <li><span class="chk">✓</span> Basic Transitions</li>
+        <li><span class="chk">✓</span> 1 Revision Round</li>
+        <li><span class="chk">✓</span> Up to 5 min output</li>
+      </ul>
+    </div>
+
+    <div class="plan-card standard">
+      <div class="plan-badge">⭐ Most Popular</div>
+      <div class="plan-icon">🎞️</div>
+      <div class="plan-name">Standard</div>
+      <div class="plan-tagline">Pro Pack</div>
+      <ul class="plan-features">
+        <li><span class="chk">✓</span> Advanced Video Editing</li>
+        <li><span class="chk">✓</span> Motion Graphics</li>
+        <li><span class="chk">✓</span> Cinematic Color Grading</li>
+        <li><span class="chk">✓</span> Sound Design & Mix</li>
+        <li><span class="chk">✓</span> Smooth Transitions & FX</li>
+        <li><span class="chk">✓</span> 3 Revision Rounds</li>
+        <li><span class="chk">✓</span> Up to 12 min output</li>
+      </ul>
+    </div>
+
+    <div class="plan-card premium">
+      <div class="plan-icon">🏆</div>
+      <div class="plan-name">Premium</div>
+      <div class="plan-tagline">Cinematic Pack</div>
+      <ul class="plan-features">
+        <li><span class="chk">✓</span> Full Cinematic Edit</li>
+        <li><span class="chk">✓</span> Advanced VFX & Compositing</li>
+        <li><span class="chk">✓</span> Premium Color Grade (LUT)</li>
+        <li><span class="chk">✓</span> Custom Motion Titles</li>
+        <li><span class="chk">✓</span> Professional Sound Mix</li>
+        <li><span class="chk">✓</span> Unlimited Revisions</li>
+        <li><span class="chk">✓</span> Any length — no limit</li>
+        <li><span class="chk">✓</span> Priority Delivery</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- CLIENT REVIEWS -->
+<section id="reviews">
+  <h1>Client Reviews</h1>
+  <p class="section-sub">What Our Clients Say</p>
+
+  <div class="rating-hero">
+    <div class="rating-big">4.9</div>
+    <div class="rating-stars-big">★★★★★</div>
+    <div class="rating-count">Based on 50+ completed projects</div>
+  </div>
+
+  <div class="reviews-grid">
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The edit was beyond what I imagined. The color grading gave the whole piece a cinematic feel I've never seen from a freelancer before. Absolutely world-class work.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">MR</div>
+        <div>
+          <span class="reviewer-name">Mahir Rahman</span>
+          <span class="reviewer-proj">Brand Film</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Our music video came out stunning. The motion graphics were fire and the pacing was perfect. Taiyan Noor really understands the mood you're going for.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">SA</div>
+        <div>
+          <span class="reviewer-name">Safia Akter</span>
+          <span class="reviewer-proj">Music Video</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Delivered on time, communicated clearly, and the final output was professional-grade. I'll definitely keep working with Creative Alone Studio for all future projects.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">NI</div>
+        <div>
+          <span class="reviewer-name">Nabeel Islam</span>
+          <span class="reviewer-proj">Commercial Ad</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">Great attention to detail on the transitions and VFX. The documentary felt raw yet polished — exactly the balance I wanted. Very responsive to feedback.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">RK</div>
+        <div>
+          <span class="reviewer-name">Rina Khatun</span>
+          <span class="reviewer-proj">Documentary</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Taiyan brought creative ideas I hadn't even thought of. The final event video was absolutely cinematic and our audience was blown away at the screening.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">ZH</div>
+        <div>
+          <span class="reviewer-name">Zayed Hossain</span>
+          <span class="reviewer-proj">Event Coverage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">The best editor I have worked with in Bangladesh. The Premium Pack was worth every bit. My brand film got thousands of reactions on launch day.</p>
+      <div class="reviewer">
+        <div class="reviewer-avatar">TM</div>
+        <div>
+          <span class="reviewer-name">Tasnim Mehrin</span>
+          <span class="reviewer-proj">Brand Film</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- INFO -->
+<section id="info">
+  <div class="info-content">
+    <h1 style="text-align:center;margin-bottom:28px;">Studio Information</h1>
+    <h2>About Taiyan Noor</h2>
+    <p>Taiyan Noor is a creative video editor and motion designer specializing in cinematic storytelling. With years of experience in the industry, the studio delivers high-quality content that captivates audiences and brings visions to life.</p>
+    <h2>What We Offer</h2>
+    <ul>
+      <li>Professional Video Editing for all types of content</li>
+      <li>Advanced Motion Graphics and Animation</li>
+      <li>Cinematic Color Grading and Color Correction</li>
+      <li>Visual Effects (VFX) and Compositing</li>
+      <li>Brand Films and Commercial Content</li>
+      <li>Music Videos and Documentary Production</li>
+    </ul>
+    <h2>Why Choose Us?</h2>
+    <p>Creative Alone Studio is committed to delivering exceptional quality with a personalized approach. Every project is handled with attention to detail, creativity, and professionalism to ensure the final product exceeds expectations.</p>
+    <h2>Contact Information</h2>
+    <p><strong>Phone:</strong> +880 1323 110339</p>
+    <p><strong>Location:</strong> Dhaka, Bangladesh</p>
+    <p><strong>Working Hours:</strong> Available 7 days a week</p>
+    <p style="margin-top:28px;text-align:center;font-style:italic;color:#00ffb3;">Let's create something amazing together!</p>
+  </div>
+</section>
+
+<a class="whatsapp" href="https://wa.me/8801323110339">💬 WhatsApp</a>
+
+<script>
+/* ── ARTISTIC SRT ── */
+const SRT_WORDS = ["CINEMATIC","MOTION","FRAME","STORY","VISUAL","CUT","GRADE","EDIT","SEQUENCE","RENDER","TEMPO","RHYTHM","DEPTH","LIGHT","SHADOW","LENS","CREATIVE","ALONE","STUDIO","TAIYAN","NOOR","COLOR","SOUND","VISION","TIMELINE","KEYFRAME","LAYER","FADE","BLUR","SHARP","FILM","REEL"];
+const srtLayer = document.getElementById("srtLayer");
+const TYPES = ["type-a","type-b","type-c"];
+
+function spawnSRT(){
+  const el = document.createElement("span");
+  el.className = "srt-word " + TYPES[Math.floor(Math.random()*3)];
+  el.textContent = SRT_WORDS[Math.floor(Math.random()*SRT_WORDS.length)];
+  const size = Math.random()*40+12;
+  el.style.fontSize = size+"px";
+  const isCrawl = el.classList.contains("type-b");
+  if(isCrawl){ el.style.left="-15%"; el.style.top=(Math.random()*88)+"%"; }
+  else        { el.style.left=(Math.random()*88)+"%"; el.style.top="102%"; }
+  const dur = Math.random()*14+10;
+  el.style.animationDuration = dur+"s";
+  srtLayer.appendChild(el);
+  setTimeout(()=>el.remove(), dur*1000+600);
+}
+setInterval(spawnSRT, 850);
+for(let i=0;i<7;i++) setTimeout(spawnSRT, i*280);
+
+/* ── SECTION REVEAL ── */
+const sections = document.querySelectorAll("section");
+const revObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("show"); });
+},{threshold:0.12});
+sections.forEach(s=>revObs.observe(s));
+
+/* ── ACTIVE NAV ── */
+const navLinks = document.querySelectorAll("nav a");
+window.addEventListener("scroll",()=>{
+  const sp = window.scrollY;
+  sections.forEach((sec,i)=>{
+    if(sp >= sec.offsetTop-220){
+      navLinks.forEach(l=>l.classList.remove("active"));
+      if(navLinks[i]) navLinks[i].classList.add("active");
+    }
+  });
+});
+navLinks.forEach(link=>{
+  link.addEventListener("click",e=>{
+    e.preventDefault();
+    const t=document.querySelector(link.getAttribute("href"));
+    if(t){ t.scrollIntoView({behavior:"smooth",block:"start"}); navLinks.forEach(l=>l.classList.remove("active")); link.classList.add("active"); }
+  });
+});
+
+/* ── MOUSE CURSOR ── */
+const cur=document.createElement("div");
+cur.id="mouseCursor";
+document.body.appendChild(cur);
+let mx=0,my=0,cx=0,cy=0;
+document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){cx+=(mx-cx)*0.15;cy+=(my-cy)*0.15;cur.style.left=cx+"px";cur.style.top=cy+"px";requestAnimationFrame(loop);})();
+document.querySelectorAll("a,button,.card,.plan-card,.work-card,.review-card").forEach(el=>{
+  el.addEventListener("mouseenter",()=>{cur.style.width="32px";cur.style.height="32px";cur.style.background="rgba(0,200,255,0.20)";cur.style.borderColor="rgba(0,200,255,0.50)";});
+  el.addEventListener("mouseleave",()=>{cur.style.width="22px";cur.style.height="22px";cur.style.background="rgba(0,230,200,0.16)";cur.style.borderColor="rgba(0,230,200,0.40)";});
+});
+
+/* ── SCROLL PROGRESS ── */
+const prog=document.createElement("div");
+prog.id="scrollProgress";
+document.body.appendChild(prog);
+window.addEventListener("scroll",()=>{
+  const t=window.pageYOffset,h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  prog.style.width=(t/h*100)+"%";
+});
+
+/* ── 3D CARD TILT ── */
+document.querySelectorAll(".card").forEach(c=>{
+  c.addEventListener("mousemove",e=>{
+    const r=c.getBoundingClientRect();
+    const rx=((e.clientY-r.top)-r.height/2)/10, ry=(r.width/2-(e.clientX-r.left))/10;
+    c.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-20px) scale(1.05)`;
+  });
+  c.addEventListener("mouseleave",()=>c.style.transform="");
+});
+</script>
+</body>
+</html>
