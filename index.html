@@ -92,6 +92,8 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 .rating-count{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);}
 .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;width:100%;max-width:1080px;margin-top:36px;padding:0 20px;}
 .review-card{padding:30px 26px;border-radius:24px;background:linear-gradient(150deg,rgba(14,14,14,0.68),rgba(5,5,5,0.45));backdrop-filter:blur(30px) saturate(150%);border:1px solid rgba(255,255,255,0.09);transition:all 0.45s ease;box-shadow:0 8px 32px rgba(0,0,0,0.38);position:relative;overflow:hidden;}
+.review-card.new-review{border-color:rgba(0,255,179,0.28);animation:newPop 0.6s cubic-bezier(0.175,0.885,0.32,1.275);}
+@keyframes newPop{0%{opacity:0;transform:translateY(28px) scale(0.93);}100%{opacity:1;transform:none;}}
 .review-card::before{content:"";position:absolute;top:-60px;right:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,179,0.07),transparent 70%);pointer-events:none;}
 .review-card:hover{transform:translateY(-10px);border-color:rgba(0,255,179,0.2);box-shadow:0 18px 50px rgba(0,0,0,0.5),0 0 30px rgba(0,255,179,0.1);}
 .review-stars{font-size:16px;letter-spacing:3px;color:#ffc35a;text-shadow:0 0 8px rgba(255,195,90,0.5);margin-bottom:14px;}
@@ -101,6 +103,32 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 .reviewer-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(0,255,179,0.25),rgba(0,140,255,0.2));border:1px solid rgba(0,255,179,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#00ffb3;flex-shrink:0;}
 .reviewer-name{font-size:14px;font-weight:700;color:#fff;display:block;}
 .reviewer-proj{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:2px;}
+
+/* ── REVIEW FORM ── */
+.review-form-wrap{width:100%;max-width:1080px;padding:0 20px;margin-top:48px;}
+.review-form-box{border-radius:28px;padding:40px 36px;background:linear-gradient(150deg,rgba(14,14,14,0.72),rgba(5,5,5,0.5));backdrop-filter:blur(40px) saturate(160%);border:1px solid rgba(0,255,179,0.18);box-shadow:0 12px 44px rgba(0,0,0,0.4),0 0 50px rgba(0,255,179,0.06),inset 0 1px 0 rgba(255,255,255,0.08);position:relative;overflow:hidden;}
+.review-form-box::before{content:"";position:absolute;inset:-1px;border-radius:28px;background:linear-gradient(135deg,rgba(0,255,179,0.10),rgba(0,140,255,0.06),transparent);z-index:-1;filter:blur(14px);}
+.review-form-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;background:linear-gradient(135deg,#fff 30%,#00ffb3);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.review-form-sub{font-size:11px;color:rgba(255,255,255,0.32);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;font-family:'Playfair Display',serif;font-style:italic;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-field{display:flex;flex-direction:column;gap:7px;}
+.form-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);font-weight:600;}
+.form-input,.form-textarea{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);border-radius:12px;padding:13px 16px;color:#fff;font-family:'Space Grotesk',sans-serif;font-size:14px;transition:all 0.3s ease;resize:none;outline:none;}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.22);}
+.form-input:focus,.form-textarea:focus{border-color:rgba(0,255,179,0.38);background:rgba(0,255,179,0.04);box-shadow:0 0 18px rgba(0,255,179,0.10);}
+.form-textarea{height:100px;}
+.star-pick-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);font-weight:600;margin-bottom:8px;}
+.star-row{display:flex;gap:6px;margin-bottom:20px;}
+.star-btn{font-size:26px;cursor:pointer;opacity:0.25;transition:all 0.2s ease;color:#ffc35a;background:none;border:none;padding:2px 3px;line-height:1;}
+.star-btn.lit{opacity:1;transform:scale(1.15);}
+.form-submit{width:100%;padding:15px;border-radius:999px;border:none;cursor:pointer;background:linear-gradient(135deg,rgba(0,255,179,0.22),rgba(0,180,255,0.14));backdrop-filter:blur(20px);color:#fff;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;border:1px solid rgba(0,255,179,0.28);box-shadow:0 4px 22px rgba(0,255,179,0.22),inset 0 1px 0 rgba(255,255,255,0.12);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);position:relative;overflow:hidden;margin-top:8px;}
+.form-submit::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.15),transparent);transform:translateX(-100%);transition:0.5s;}
+.form-submit:hover::before{transform:translateX(100%);}
+.form-submit:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 36px rgba(0,255,179,0.36),0 0 50px rgba(0,255,179,0.18);}
+.form-submit:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+.form-success{display:none;text-align:center;padding:18px;background:linear-gradient(135deg,rgba(0,255,179,0.10),rgba(0,180,255,0.06));border-radius:14px;border:1px solid rgba(0,255,179,0.22);margin-top:14px;font-size:14px;color:#00ffb3;font-weight:700;letter-spacing:1px;animation:fadeUp 0.5s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
 .info-content{max-width:940px;padding:58px 48px;border-radius:40px;background:linear-gradient(150deg,rgba(14,14,14,0.72),rgba(5,5,5,0.5));backdrop-filter:blur(55px) saturate(180%);border:1px solid rgba(255,255,255,0.16);text-align:left;position:relative;box-shadow:0 20px 65px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.14),0 0 80px rgba(0,255,179,0.08);}
 .info-content::before{content:"";position:absolute;inset:-2px;border-radius:40px;background:linear-gradient(135deg,rgba(0,255,179,0.12),rgba(0,140,255,0.08),rgba(0,200,240,0.06));z-index:-1;opacity:0.5;filter:blur(20px);}
 .info-content h2{font-size:clamp(20px,3.5vw,36px);background:linear-gradient(135deg,#00ffb3,#008cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:38px;margin-bottom:18px;font-weight:800;letter-spacing:1px;}
@@ -117,320 +145,220 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 #scrollProgress{position:fixed;top:0;left:0;width:0%;height:2.5px;background:linear-gradient(90deg,rgba(0,240,200,0.9),rgba(0,190,255,0.9),rgba(100,240,220,0.9));z-index:10001;filter:blur(0.4px);box-shadow:0 0 10px rgba(0,220,200,0.6),0 0 20px rgba(0,190,255,0.4);transition:width 0.08s ease;}
 .whatsapp{position:fixed;bottom:32px;right:32px;padding:14px 26px;background:linear-gradient(135deg,#25D366,#1ead57);color:#fff;border-radius:50px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 8px 28px rgba(37,211,102,0.5),0 0 36px rgba(37,211,102,0.28);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:1001;border:2px solid rgba(255,255,255,0.18);letter-spacing:0.5px;display:flex;align-items:center;gap:7px;}
 .whatsapp:hover{transform:translateY(-5px) scale(1.1);box-shadow:0 14px 40px rgba(37,211,102,0.65),0 0 55px rgba(37,211,102,0.4);}
-@media(max-width:768px){nav a{font-size:10px;padding:7px 10px;}.hero{padding:55px 24px;}.grid,.plans-grid,.work-grid,.reviews-grid{grid-template-columns:1fr;}.info-content{padding:28px 18px;}.plan-card.standard{transform:scale(1);}.rating-big{font-size:64px;}}
+@media(max-width:768px){
+  nav a{font-size:10px;padding:7px 10px;}
+  .hero{padding:55px 24px;}
+  .grid,.plans-grid,.work-grid,.reviews-grid{grid-template-columns:1fr;}
+  .info-content{padding:28px 18px;}
+  .plan-card.standard{transform:scale(1);}
+  .rating-big{font-size:64px;}
+  .form-row{grid-template-columns:1fr;}
+  .review-form-box{padding:28px 18px;}
+}
 </style>
 </head>
 <body>
 
 <div class="grain"></div>
 <div class="srt-layer" id="srtLayer"></div>
-
-<!-- NAV — rendered by JS -->
 <nav id="mainNav"></nav>
-
-<!-- HOME -->
 <section id="home"></section>
-
-<!-- ABOUT -->
 <section id="about"></section>
-
-<!-- SERVICES -->
 <section id="services"></section>
-
-<!-- PREVIOUS WORK -->
 <section id="prev-work"></section>
-
-<!-- PLANS -->
 <section id="plans"></section>
-
-<!-- REVIEWS -->
 <section id="reviews"></section>
-
-<!-- INFO -->
 <section id="info"></section>
-
-<!-- WhatsApp — rendered by JS -->
 <div id="whatsappBtn"></div>
 
 <script>
-/* ═══════════════════════════════════════════════
-   ██████  DATA — শুধু এই অংশ edit করতে হবে
-═══════════════════════════════════════════════ */
-
+/* ══════════════════════════════════════════════
+   DATA
+══════════════════════════════════════════════ */
 const SITE = {
-
-  /* ── NAV ── */
-  nav: [
-    { label: "Home",             href: "#home"      },
-    { label: "About Our Service",href: "#about"     },
-    { label: "Services",         href: "#services"  },
-    { label: "Previous Work",    href: "#prev-work" },
-    { label: "Plans",            href: "#plans"     },
-    { label: "Reviews",          href: "#reviews"   },
-    { label: "Info",             href: "#info"      }
+  nav:[
+    {label:"Home",             href:"#home"},
+    {label:"About Our Service",href:"#about"},
+    {label:"Services",         href:"#services"},
+    {label:"Previous Work",    href:"#prev-work"},
+    {label:"Plans",            href:"#plans"},
+    {label:"Reviews",          href:"#reviews"},
+    {label:"Info",             href:"#info"}
   ],
-
-  /* ── HOME HERO ── */
-  hero: {
-    name:       "Taiyan Noor",
-    subtitle:   "frame by frame — vision to reality",
-    studio:     "Creative Alone Studio",
-    tag:        "Cinematic • Motion • Storytelling",
-    btnLabel:   "▶ View Showreel",
-    btnAction:  "#"  // YouTube / drive link দিতে পারো
+  hero:{
+    name:"Taiyan Noor",
+    subtitle:"frame by frame — vision to reality",
+    studio:"Creative Alone Studio",
+    tag:"Cinematic • Motion • Storytelling",
+    btnLabel:"▶ View Showreel",
+    btnAction:"#"
   },
-
-  /* ── ABOUT SECTION ── */
-  about: {
-    title:    "About Our Service",
-    subtitle: "The Art of Visual Storytelling",
-    cards: [
-      { icon:"🎬", title:"Cinematic Editing",   desc:"Professional cuts with cinematic pacing and rhythm that keeps audiences captivated." },
-      { icon:"✨", title:"Motion Graphics",     desc:"Dynamic animations and title sequences crafted with precision and creative flair." },
-      { icon:"📖", title:"Storytelling",        desc:"Every frame tells a story — we shape your raw footage into a compelling narrative." },
-      { icon:"🎨", title:"Color Grading",       desc:"Film-grade color correction that gives your footage its unique cinematic look." }
+  about:{
+    title:"About Our Service",subtitle:"The Art of Visual Storytelling",
+    cards:[
+      {icon:"🎬",title:"Cinematic Editing",  desc:"Professional cuts with cinematic pacing and rhythm that keeps audiences captivated."},
+      {icon:"✨",title:"Motion Graphics",    desc:"Dynamic animations and title sequences crafted with precision and creative flair."},
+      {icon:"📖",title:"Storytelling",       desc:"Every frame tells a story — we shape your raw footage into a compelling narrative."},
+      {icon:"🎨",title:"Color Grading",      desc:"Film-grade color correction that gives your footage its unique cinematic look."}
     ]
   },
-
-  /* ── SERVICES ── */
-  services: {
-    title:    "Services",
-    subtitle: "What We Deliver",
-    items: [
-      { icon:"✂️", label:"Video Editing"  },
-      { icon:"💥", label:"VFX"            },
-      { icon:"🎨", label:"Color Grading"  },
-      { icon:"🎵", label:"Sound Design"   },
-      { icon:"🎞️", label:"Brand Films"    },
-      { icon:"🎤", label:"Music Videos"   }
+  services:{
+    title:"Services",subtitle:"What We Deliver",
+    items:[
+      {icon:"✂️",label:"Video Editing"},{icon:"💥",label:"VFX"},
+      {icon:"🎨",label:"Color Grading"},{icon:"🎵",label:"Sound Design"},
+      {icon:"🎞️",label:"Brand Films"},  {icon:"🎤",label:"Music Videos"}
     ]
   },
-
-  /* ── PREVIOUS WORK ── */
-  work: {
-    title:    "Previous Work",
-    subtitle: "Selected Projects",
-    projects: [
-      { type:"Brand Film",    title:"Echoes of Motion",  year:"2024", bg:"linear-gradient(135deg,#010f08,#003320 40%,#00ffb3 200%)",  link:"#" },
-      { type:"Music Video",   title:"Neon Frequency",    year:"2024", bg:"linear-gradient(135deg,#05080f,#001428 40%,#0088ff 200%)",  link:"#" },
-      { type:"Documentary",   title:"City of Layers",    year:"2023", bg:"linear-gradient(135deg,#0f0800,#1a0a00 40%,#ffc35a 200%)",  link:"#" },
-      { type:"Commercial",    title:"Silent Campaign",   year:"2023", bg:"linear-gradient(135deg,#06000f,#100020 40%,#a855f7 200%)",  link:"#" },
-      { type:"Short Film",    title:"After the Rain",    year:"2023", bg:"linear-gradient(135deg,#000a0f,#001520 40%,#00d4ff 200%)",  link:"#" },
-      { type:"Event Coverage",title:"Momentum Live",     year:"2022", bg:"linear-gradient(135deg,#080c00,#111800 40%,#a3e635 200%)",  link:"#" }
+  work:{
+    title:"Previous Work",subtitle:"Selected Projects",
+    projects:[
+      {type:"Brand Film",    title:"Echoes of Motion", year:"2024",bg:"linear-gradient(135deg,#010f08,#003320 40%,#00ffb3 200%)",link:"#"},
+      {type:"Music Video",   title:"Neon Frequency",   year:"2024",bg:"linear-gradient(135deg,#05080f,#001428 40%,#0088ff 200%)",link:"#"},
+      {type:"Documentary",   title:"City of Layers",   year:"2023",bg:"linear-gradient(135deg,#0f0800,#1a0a00 40%,#ffc35a 200%)",link:"#"},
+      {type:"Commercial",    title:"Silent Campaign",  year:"2023",bg:"linear-gradient(135deg,#06000f,#100020 40%,#a855f7 200%)",link:"#"},
+      {type:"Short Film",    title:"After the Rain",   year:"2023",bg:"linear-gradient(135deg,#000a0f,#001520 40%,#00d4ff 200%)",link:"#"},
+      {type:"Event Coverage",title:"Momentum Live",    year:"2022",bg:"linear-gradient(135deg,#080c00,#111800 40%,#a3e635 200%)",link:"#"}
     ]
   },
-
-  /* ── PLANS ── */
-  plans: {
-    title:    "Our Plans",
-    subtitle: "Choose Your Package",
-    packages: [
-      {
-        tier:    "basic",
-        icon:    "🎬",
-        name:    "Basic",
-        tagline: "Starter Pack",
-        badge:   null,
-        features:[
-          "Basic Video Editing",
-          "Simple Color Correction",
-          "Background Music Add",
-          "Basic Transitions",
-          "1 Revision Round",
-          "Up to 5 min output"
-        ]
-      },
-      {
-        tier:    "standard",
-        icon:    "🎞️",
-        name:    "Standard",
-        tagline: "Pro Pack",
-        badge:   "⭐ Most Popular",
-        features:[
-          "Advanced Video Editing",
-          "Motion Graphics",
-          "Cinematic Color Grading",
-          "Sound Design & Mix",
-          "Smooth Transitions & FX",
-          "3 Revision Rounds",
-          "Up to 12 min output"
-        ]
-      },
-      {
-        tier:    "premium",
-        icon:    "🏆",
-        name:    "Premium",
-        tagline: "Cinematic Pack",
-        badge:   null,
-        features:[
-          "Full Cinematic Edit",
-          "Advanced VFX & Compositing",
-          "Premium Color Grade (LUT)",
-          "Custom Motion Titles",
-          "Professional Sound Mix",
-          "Unlimited Revisions",
-          "Any length — no limit",
-          "Priority Delivery"
-        ]
-      }
+  plans:{
+    title:"Our Plans",subtitle:"Choose Your Package",
+    packages:[
+      {tier:"basic",  icon:"🎬",name:"Basic",   tagline:"Starter Pack",  badge:null,
+       features:["Basic Video Editing","Simple Color Correction","Background Music Add","Basic Transitions","1 Revision Round","Up to 5 min output"]},
+      {tier:"standard",icon:"🎞️",name:"Standard",tagline:"Pro Pack",    badge:"⭐ Most Popular",
+       features:["Advanced Video Editing","Motion Graphics","Cinematic Color Grading","Sound Design & Mix","Smooth Transitions & FX","3 Revision Rounds","Up to 12 min output"]},
+      {tier:"premium",icon:"🏆",name:"Premium", tagline:"Cinematic Pack",badge:null,
+       features:["Full Cinematic Edit","Advanced VFX & Compositing","Premium Color Grade (LUT)","Custom Motion Titles","Professional Sound Mix","Unlimited Revisions","Any length — no limit","Priority Delivery"]}
     ]
   },
-
-  /* ── REVIEWS ── */
-  reviews: {
-    title:       "Client Reviews",
-    subtitle:    "What Our Clients Say",
-    ratingScore: "4.9",
-    ratingStars: "★★★★★",
-    ratingCount: "Based on 50+ completed projects",
-    list: [
-      { stars:"★★★★★", text:"The edit was beyond what I imagined. The color grading gave the whole piece a cinematic feel I've never seen from a freelancer before. Absolutely world-class work.", name:"Mahir Rahman",  initials:"MR", project:"Brand Film"    },
-      { stars:"★★★★★", text:"Our music video came out stunning. The motion graphics were fire and the pacing was perfect. Taiyan Noor really understands the mood you're going for.",             name:"Safia Akter",  initials:"SA", project:"Music Video"  },
-      { stars:"★★★★★", text:"Delivered on time, communicated clearly, and the final output was professional-grade. I'll definitely keep working with Creative Alone Studio for all future projects.", name:"Nabeel Islam", initials:"NI", project:"Commercial Ad" },
-      { stars:"★★★★☆", text:"Great attention to detail on the transitions and VFX. The documentary felt raw yet polished — exactly the balance I wanted. Very responsive to feedback.",           name:"Rina Khatun",  initials:"RK", project:"Documentary"  },
-      { stars:"★★★★★", text:"Taiyan brought creative ideas I hadn't even thought of. The final event video was absolutely cinematic and our audience was blown away at the screening.",            name:"Zayed Hossain",initials:"ZH", project:"Event Coverage"},
-      { stars:"★★★★★", text:"The best editor I have worked with in Bangladesh. The Premium Pack was worth every bit. My brand film got thousands of reactions on launch day.",                    name:"Tasnim Mehrin",initials:"TM", project:"Brand Film"    }
+  reviews:{
+    title:"Client Reviews",subtitle:"What Our Clients Say",
+    ratingScore:"4.9",ratingStars:"★★★★★",
+    ratingCount:"Based on 50+ completed projects",
+    list:[
+      /* Bangladesh */
+      {stars:"★★★★★",text:"The edit was beyond what I imagined. The color grading gave the whole piece a cinematic feel I've never seen from a freelancer before. Absolutely world-class work.",           name:"Mahir Rahman",      initials:"MR",project:"Brand Film",    flag:"🇧🇩"},
+      {stars:"★★★★★",text:"Our music video came out stunning. The motion graphics were fire and the pacing was perfect. Taiyan Noor really understands the mood you're going for.",                      name:"Safia Akter",       initials:"SA",project:"Music Video",   flag:"🇧🇩"},
+      {stars:"★★★★☆",text:"Great attention to detail on the transitions and VFX. The documentary felt raw yet polished — exactly the balance I wanted. Very responsive to feedback.",                   name:"Rina Khatun",       initials:"RK",project:"Documentary",   flag:"🇧🇩"},
+      {stars:"★★★★★",text:"Taiyan brought creative ideas I hadn't even thought of. The final event video was absolutely cinematic and our audience was blown away at the screening.",                   name:"Zayed Hossain",     initials:"ZH",project:"Event Coverage",flag:"🇧🇩"},
+      {stars:"★★★★★",text:"Delivered on time, communicated clearly, and the final output was professional-grade. I'll definitely keep working with Creative Alone Studio for all future projects.",      name:"Nabeel Islam",      initials:"NI",project:"Commercial Ad", flag:"🇧🇩"},
+      {stars:"★★★★★",text:"The best editor I have worked with in Bangladesh. The Premium Pack was worth every bit. My brand film got thousands of reactions on launch day.",                            name:"Tasnim Mehrin",     initials:"TM",project:"Brand Film",    flag:"🇧🇩"},
+      /* International */
+      {stars:"★★★★★",text:"Absolutely incredible quality. The color palette and transitions gave our campaign a premium Hollywood feel. I've worked with editors in LA — this level matches them easily.",name:"James Whitfield",   initials:"JW",project:"Commercial Ad", flag:"🇺🇸"},
+      {stars:"★★★★★",text:"Ich bin beeindruckt! The storytelling flow in our documentary was flawless. Taiyan understood our creative vision immediately and delivered something truly cinematic.",        name:"Leon Becker",       initials:"LB",project:"Documentary",   flag:"🇩🇪"},
+      {stars:"★★★★★",text:"Exceptional editing. The music video cut was tight, rhythmic, and visually stunning. Our YouTube comments are full of people asking who edited this — amazing work.",        name:"Lucas Moreau",      initials:"LM",project:"Music Video",   flag:"🇫🇷"},
+      {stars:"★★★★★",text:"I sent rough footage and received a cinematic masterpiece. The sound design alone was worth every penny. Will return for all future brand content without question.",         name:"Priya Nair",        initials:"PN",project:"Brand Film",    flag:"🇮🇳"},
+      {stars:"★★★★★",text:"Top-tier post production. The VFX compositing was seamless and the overall cinematic quality blew our clients away. Highly recommend for any international project.",        name:"Sophie Harrington", initials:"SH",project:"Brand Film",    flag:"🇬🇧"},
+      {stars:"★★★★★",text:"质量超乎预期。剪辑节奏完美，色彩分级让整个影片看起来像好莱坞出品。非常专业，强烈推荐！",                                                                                      name:"Wei Zhao",          initials:"WZ",project:"Short Film",    flag:"🇨🇳"}
     ]
   },
-
-  /* ── INFO ── */
-  info: {
-    about:       "Taiyan Noor is a creative video editor and motion designer specializing in cinematic storytelling. With years of experience in the industry, the studio delivers high-quality content that captivates audiences and brings visions to life.",
-    offerings: [
-      "Professional Video Editing for all types of content",
-      "Advanced Motion Graphics and Animation",
-      "Cinematic Color Grading and Color Correction",
-      "Visual Effects (VFX) and Compositing",
-      "Brand Films and Commercial Content",
-      "Music Videos and Documentary Production"
-    ],
-    whyUs:    "Creative Alone Studio is committed to delivering exceptional quality with a personalized approach. Every project is handled with attention to detail, creativity, and professionalism to ensure the final product exceeds expectations.",
-    phone:    "+880 1323 110339",
-    location: "Dhaka, Bangladesh",
-    hours:    "Available 7 days a week",
-    cta:      "Let's create something amazing together!"
+  info:{
+    about:"Taiyan Noor is a creative video editor and motion designer specializing in cinematic storytelling. With years of experience in the industry, the studio delivers high-quality content that captivates audiences and brings visions to life.",
+    offerings:["Professional Video Editing for all types of content","Advanced Motion Graphics and Animation","Cinematic Color Grading and Color Correction","Visual Effects (VFX) and Compositing","Brand Films and Commercial Content","Music Videos and Documentary Production"],
+    whyUs:"Creative Alone Studio is committed to delivering exceptional quality with a personalized approach. Every project is handled with attention to detail, creativity, and professionalism to ensure the final product exceeds expectations.",
+    phone:"+880 1323 110339",location:"Dhaka, Bangladesh",hours:"Available 7 days a week",
+    cta:"Let's create something amazing together!"
   },
-
-  /* ── WHATSAPP ── */
-  whatsapp: {
-    number: "8801323110339",
-    label:  "💬 WhatsApp"
-  },
-
-  /* ── SRT FLOATING WORDS ── */
-  srtWords: ["CINEMATIC","MOTION","FRAME","STORY","VISUAL","CUT","GRADE","EDIT","SEQUENCE","RENDER","TEMPO","RHYTHM","DEPTH","LIGHT","SHADOW","LENS","CREATIVE","ALONE","STUDIO","TAIYAN","NOOR","COLOR","SOUND","VISION","TIMELINE","KEYFRAME","LAYER","FADE","BLUR","SHARP","FILM","REEL"]
+  whatsapp:{number:"8801323110339",label:"💬 WhatsApp"},
+  srtWords:["CINEMATIC","MOTION","FRAME","STORY","VISUAL","CUT","GRADE","EDIT","SEQUENCE","RENDER","TEMPO","RHYTHM","DEPTH","LIGHT","SHADOW","LENS","CREATIVE","ALONE","STUDIO","TAIYAN","NOOR","COLOR","SOUND","VISION","TIMELINE","KEYFRAME","LAYER","FADE","BLUR","SHARP","FILM","REEL"]
 };
 
-/* ═══════════════════════════════════════════════
-   RENDER FUNCTIONS — পরিবর্তন করার দরকার নেই
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   STORAGE
+══════════════════════════════════════════════ */
+async function loadUserReviews(){
+  try{ const r=await window.storage.get("cas-reviews"); return r?JSON.parse(r.value):[]; }
+  catch(e){ return []; }
+}
+async function saveUserReviews(arr){
+  try{ await window.storage.set("cas-reviews",JSON.stringify(arr)); }catch(e){}
+}
 
+/* ══════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════ */
+function mkInitials(n){ return n.trim().split(/\s+/).map(w=>w[0]).join("").toUpperCase().slice(0,2); }
+function starsOf(n){ return "★".repeat(n)+"☆".repeat(5-n); }
+function reviewCard(r,isNew){
+  return `<div class="review-card${isNew?" new-review":""}">
+    <div class="review-stars">${r.stars}</div>
+    <p class="review-text">${r.text}</p>
+    <div class="reviewer">
+      <div class="reviewer-avatar">${r.initials||mkInitials(r.name)}</div>
+      <div>
+        <span class="reviewer-name">${r.flag?" "+r.flag+" ":""} ${r.name}</span>
+        <span class="reviewer-proj">${r.project}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   RENDER SECTIONS
+══════════════════════════════════════════════ */
 /* NAV */
-(function renderNav(){
-  const nav = document.getElementById("mainNav");
-  nav.innerHTML = SITE.nav.map((item, i) =>
-    `<a href="${item.href}"${i===0?' class="active"':''}>${item.label}</a>`
-  ).join("");
-})();
+document.getElementById("mainNav").innerHTML=
+  SITE.nav.map((it,i)=>`<a href="${it.href}"${i===0?' class="active"':''}>${it.label}</a>`).join("");
 
 /* HOME */
-(function renderHome(){
-  const h = SITE.hero;
-  document.getElementById("home").innerHTML = `
-    <div class="hero">
-      <h1 class="title" data-text="${h.name}">${h.name}</h1>
-      <span class="srt-subtitle">${h.subtitle}</span>
-      <div class="studio">${h.studio}</div>
-      <div class="tag">${h.tag}</div>
-      <button class="btn" onclick="location.href='${h.btnAction}'">${h.btnLabel}</button>
-    </div>`;
+(()=>{const h=SITE.hero;
+  document.getElementById("home").innerHTML=`<div class="hero">
+    <h1 class="title" data-text="${h.name}">${h.name}</h1>
+    <span class="srt-subtitle">${h.subtitle}</span>
+    <div class="studio">${h.studio}</div>
+    <div class="tag">${h.tag}</div>
+    <button class="btn" onclick="location.href='${h.btnAction}'">${h.btnLabel}</button>
+  </div>`;
 })();
 
 /* ABOUT */
-(function renderAbout(){
-  const a = SITE.about;
-  const cards = a.cards.map(c => `
-    <div class="card">
-      <div style="font-size:32px;margin-bottom:14px;">${c.icon}</div>
-      <div style="font-size:16px;font-weight:700;margin-bottom:10px;">${c.title}</div>
-      <div style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:400;line-height:1.8;">${c.desc}</div>
-    </div>`).join("");
-  document.getElementById("about").innerHTML = `
-    <h1>${a.title}</h1>
-    <p class="section-sub">${a.subtitle}</p>
-    <div class="grid" style="margin-top:44px;">${cards}</div>`;
+(()=>{const a=SITE.about;
+  document.getElementById("about").innerHTML=`<h1>${a.title}</h1><p class="section-sub">${a.subtitle}</p>
+  <div class="grid" style="margin-top:44px;">${a.cards.map(c=>`<div class="card">
+    <div style="font-size:32px;margin-bottom:14px;">${c.icon}</div>
+    <div style="font-size:16px;font-weight:700;margin-bottom:10px;">${c.title}</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.55);font-weight:400;line-height:1.8;">${c.desc}</div>
+  </div>`).join("")}</div>`;
 })();
 
 /* SERVICES */
-(function renderServices(){
-  const s = SITE.services;
-  const cards = s.items.map(item => `
-    <div class="card">
-      <div style="font-size:28px;margin-bottom:12px;">${item.icon}</div>
-      ${item.label}
-    </div>`).join("");
-  document.getElementById("services").innerHTML = `
-    <h1>${s.title}</h1>
-    <p class="section-sub">${s.subtitle}</p>
-    <div class="grid">${cards}</div>`;
+(()=>{const s=SITE.services;
+  document.getElementById("services").innerHTML=`<h1>${s.title}</h1><p class="section-sub">${s.subtitle}</p>
+  <div class="grid">${s.items.map(it=>`<div class="card"><div style="font-size:28px;margin-bottom:12px;">${it.icon}</div>${it.label}</div>`).join("")}</div>`;
 })();
 
-/* PREVIOUS WORK */
-(function renderWork(){
-  const w = SITE.work;
-  const cards = w.projects.map(p => `
-    <div class="work-card" onclick="if('${p.link}'!=='#')location.href='${p.link}'">
-      <div class="work-thumb" style="background:${p.bg};"></div>
-      <div class="work-info">
-        <span class="work-type">${p.type}</span>
-        <div class="work-title">${p.title}</div>
-        <span class="work-year">${p.year}</span>
-      </div>
-    </div>`).join("");
-  document.getElementById("prev-work").innerHTML = `
-    <h1>${w.title}</h1>
-    <p class="section-sub">${w.subtitle}</p>
-    <div class="work-grid">${cards}</div>`;
+/* WORK */
+(()=>{const w=SITE.work;
+  document.getElementById("prev-work").innerHTML=`<h1>${w.title}</h1><p class="section-sub">${w.subtitle}</p>
+  <div class="work-grid">${w.projects.map(p=>`<div class="work-card" onclick="if('${p.link}'!=='#')location.href='${p.link}'">
+    <div class="work-thumb" style="background:${p.bg};"></div>
+    <div class="work-info">
+      <span class="work-type">${p.type}</span>
+      <div class="work-title">${p.title}</div>
+      <span class="work-year">${p.year}</span>
+    </div></div>`).join("")}</div>`;
 })();
 
 /* PLANS */
-(function renderPlans(){
-  const pl = SITE.plans;
-  const cards = pl.packages.map(pkg => {
-    const badge   = pkg.badge ? `<div class="plan-badge">${pkg.badge}</div>` : "";
-    const features = pkg.features.map(f =>
-      `<li><span class="chk">✓</span> ${f}</li>`).join("");
-    return `
-      <div class="plan-card ${pkg.tier}">
-        ${badge}
-        <div class="plan-icon">${pkg.icon}</div>
-        <div class="plan-name">${pkg.name}</div>
-        <div class="plan-tagline">${pkg.tagline}</div>
-        <ul class="plan-features">${features}</ul>
-      </div>`;
-  }).join("");
-  document.getElementById("plans").innerHTML = `
-    <h1>${pl.title}</h1>
-    <p class="section-sub">${pl.subtitle}</p>
-    <div class="plans-grid">${cards}</div>`;
+(()=>{const pl=SITE.plans;
+  document.getElementById("plans").innerHTML=`<h1>${pl.title}</h1><p class="section-sub">${pl.subtitle}</p>
+  <div class="plans-grid">${pl.packages.map(pkg=>`<div class="plan-card ${pkg.tier}">
+    ${pkg.badge?`<div class="plan-badge">${pkg.badge}</div>`:""}
+    <div class="plan-icon">${pkg.icon}</div>
+    <div class="plan-name">${pkg.name}</div>
+    <div class="plan-tagline">${pkg.tagline}</div>
+    <ul class="plan-features">${pkg.features.map(f=>`<li><span class="chk">✓</span> ${f}</li>`).join("")}</ul>
+  </div>`).join("")}</div>`;
 })();
 
-/* REVIEWS */
-(function renderReviews(){
-  const rv = SITE.reviews;
-  const cards = rv.list.map(r => `
-    <div class="review-card">
-      <div class="review-stars">${r.stars}</div>
-      <p class="review-text">${r.text}</p>
-      <div class="reviewer">
-        <div class="reviewer-avatar">${r.initials}</div>
-        <div>
-          <span class="reviewer-name">${r.name}</span>
-          <span class="reviewer-proj">${r.project}</span>
-        </div>
-      </div>
-    </div>`).join("");
-  document.getElementById("reviews").innerHTML = `
+/* REVIEWS (async — loads stored) */
+async function renderReviews(){
+  const rv=SITE.reviews;
+  const userReviews=await loadUserReviews();
+  const allReviews=[...rv.list,...userReviews];
+
+  document.getElementById("reviews").innerHTML=`
     <h1>${rv.title}</h1>
     <p class="section-sub">${rv.subtitle}</p>
     <div class="rating-hero">
@@ -438,117 +366,173 @@ const SITE = {
       <div class="rating-stars-big">${rv.ratingStars}</div>
       <div class="rating-count">${rv.ratingCount}</div>
     </div>
-    <div class="reviews-grid">${cards}</div>`;
-})();
+    <div class="reviews-grid" id="reviewsGrid">
+      ${allReviews.map((r,i)=>reviewCard(r,i>=rv.list.length)).join("")}
+    </div>
+
+    <div class="review-form-wrap">
+      <div class="review-form-box">
+        <div class="review-form-title">✍️ Leave a Review</div>
+        <div class="review-form-sub">Share your experience with Creative Alone Studio</div>
+        <div class="form-row">
+          <div class="form-field">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" id="rfName" type="text" placeholder="e.g. John Smith" maxlength="50"/>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Project Type</label>
+            <input class="form-input" id="rfProject" type="text" placeholder="e.g. Brand Film, Music Video" maxlength="40"/>
+          </div>
+        </div>
+        <div class="form-field">
+          <div class="star-pick-label">Your Rating</div>
+          <div class="star-row" id="starRow">
+            <button class="star-btn" data-v="1">★</button>
+            <button class="star-btn" data-v="2">★</button>
+            <button class="star-btn" data-v="3">★</button>
+            <button class="star-btn" data-v="4">★</button>
+            <button class="star-btn" data-v="5">★</button>
+          </div>
+        </div>
+        <div class="form-field" style="margin-bottom:18px;">
+          <label class="form-label">Your Review</label>
+          <textarea class="form-textarea" id="rfText" placeholder="Tell us about your experience…" maxlength="300"></textarea>
+        </div>
+        <button class="form-submit" id="rfBtn">✦ Submit Review</button>
+        <div class="form-success" id="rfSuccess">🎉 Thank you! Your review has been added.</div>
+      </div>
+    </div>`;
+
+  /* star picker */
+  let chosen=0;
+  const starBtns=document.querySelectorAll(".star-btn");
+  function highlightStars(n){ starBtns.forEach(b=>b.classList.toggle("lit",+b.dataset.v<=n)); }
+  starBtns.forEach(b=>{
+    b.addEventListener("mouseenter",()=>highlightStars(+b.dataset.v));
+    b.addEventListener("mouseleave",()=>highlightStars(chosen));
+    b.addEventListener("click",()=>{ chosen=+b.dataset.v; highlightStars(chosen); });
+  });
+
+  /* submit */
+  document.getElementById("rfBtn").addEventListener("click", async ()=>{
+    const name   =document.getElementById("rfName").value.trim();
+    const project=document.getElementById("rfProject").value.trim();
+    const text   =document.getElementById("rfText").value.trim();
+    if(!name||!project||!text||!chosen){ alert("Please fill in all fields and pick a star rating."); return; }
+
+    const r={stars:starsOf(chosen),text,name,initials:mkInitials(name),project,flag:"🌐"};
+    const btn=document.getElementById("rfBtn");
+    btn.disabled=true; btn.textContent="Publishing…";
+
+    const stored=await loadUserReviews();
+    stored.push(r);
+    await saveUserReviews(stored);
+
+    const grid=document.getElementById("reviewsGrid");
+    const tmp=document.createElement("div");
+    tmp.innerHTML=reviewCard(r,true);
+    grid.appendChild(tmp.firstElementChild);
+
+    document.getElementById("rfSuccess").style.display="block";
+    btn.style.display="none";
+
+    attachCursor("a,button,.card,.plan-card,.work-card,.review-card");
+  });
+}
+renderReviews();
 
 /* INFO */
-(function renderInfo(){
-  const inf = SITE.info;
-  const offerList = inf.offerings.map(o => `<li>${o}</li>`).join("");
-  document.getElementById("info").innerHTML = `
-    <div class="info-content">
-      <h1 style="text-align:center;margin-bottom:28px;">Studio Information</h1>
-      <h2>About Taiyan Noor</h2>
-      <p>${inf.about}</p>
-      <h2>What We Offer</h2>
-      <ul>${offerList}</ul>
-      <h2>Why Choose Us?</h2>
-      <p>${inf.whyUs}</p>
-      <h2>Contact Information</h2>
-      <p><strong>Phone:</strong> ${inf.phone}</p>
-      <p><strong>Location:</strong> ${inf.location}</p>
-      <p><strong>Working Hours:</strong> ${inf.hours}</p>
-      <p style="margin-top:28px;text-align:center;font-style:italic;color:#00ffb3;">${inf.cta}</p>
-    </div>`;
+(()=>{const inf=SITE.info;
+  document.getElementById("info").innerHTML=`<div class="info-content">
+    <h1 style="text-align:center;margin-bottom:28px;">Studio Information</h1>
+    <h2>About Taiyan Noor</h2><p>${inf.about}</p>
+    <h2>What We Offer</h2>
+    <ul>${inf.offerings.map(o=>`<li>${o}</li>`).join("")}</ul>
+    <h2>Why Choose Us?</h2><p>${inf.whyUs}</p>
+    <h2>Contact Information</h2>
+    <p><strong>Phone:</strong> ${inf.phone}</p>
+    <p><strong>Location:</strong> ${inf.location}</p>
+    <p><strong>Working Hours:</strong> ${inf.hours}</p>
+    <p style="margin-top:28px;text-align:center;font-style:italic;color:#00ffb3;">${inf.cta}</p>
+  </div>`;
 })();
 
 /* WHATSAPP */
-(function renderWhatsApp(){
-  const w = SITE.whatsapp;
-  document.getElementById("whatsappBtn").innerHTML =
-    `<a class="whatsapp" href="https://wa.me/${w.number}">${w.label}</a>`;
+(()=>{const w=SITE.whatsapp;
+  document.getElementById("whatsappBtn").innerHTML=`<a class="whatsapp" href="https://wa.me/${w.number}">${w.label}</a>`;
 })();
 
-/* ═══════════════════════════════════════════════
-   BEHAVIOUR — same as original
-═══════════════════════════════════════════════ */
-
-/* SRT floating words */
-const srtLayer = document.getElementById("srtLayer");
-const TYPES = ["type-a","type-b","type-c"];
+/* ══════════════════════════════════════════════
+   BEHAVIOUR
+══════════════════════════════════════════════ */
+/* SRT */
+const srtLayer=document.getElementById("srtLayer");
+const TYPES=["type-a","type-b","type-c"];
 function spawnSRT(){
-  const el = document.createElement("span");
-  el.className = "srt-word " + TYPES[Math.floor(Math.random()*3)];
-  el.textContent = SITE.srtWords[Math.floor(Math.random()*SITE.srtWords.length)];
-  const size = Math.random()*40+12;
-  el.style.fontSize = size+"px";
-  const isCrawl = el.classList.contains("type-b");
-  if(isCrawl){ el.style.left="-15%"; el.style.top=(Math.random()*88)+"%"; }
-  else        { el.style.left=(Math.random()*88)+"%"; el.style.top="102%"; }
-  const dur = Math.random()*14+10;
-  el.style.animationDuration = dur+"s";
-  srtLayer.appendChild(el);
-  setTimeout(()=>el.remove(), dur*1000+600);
+  const el=document.createElement("span");
+  el.className="srt-word "+TYPES[Math.floor(Math.random()*3)];
+  el.textContent=SITE.srtWords[Math.floor(Math.random()*SITE.srtWords.length)];
+  const sz=Math.random()*40+12; el.style.fontSize=sz+"px";
+  const crawl=el.classList.contains("type-b");
+  if(crawl){el.style.left="-15%";el.style.top=(Math.random()*88)+"%";}
+  else{el.style.left=(Math.random()*88)+"%";el.style.top="102%";}
+  const dur=Math.random()*14+10; el.style.animationDuration=dur+"s";
+  srtLayer.appendChild(el); setTimeout(()=>el.remove(),dur*1000+600);
 }
-setInterval(spawnSRT, 850);
-for(let i=0;i<7;i++) setTimeout(spawnSRT, i*280);
+setInterval(spawnSRT,850);
+for(let i=0;i<7;i++) setTimeout(spawnSRT,i*280);
 
-/* Section reveal */
-const sections = document.querySelectorAll("section");
-const revObs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("show"); });
-},{threshold:0.12});
+/* section reveal */
+const sections=document.querySelectorAll("section");
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show");}),{threshold:0.12})
+  .observe||sections.forEach(s=>s.classList.add("show")); // fallback
+const revObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show");}),{threshold:0.12});
 sections.forEach(s=>revObs.observe(s));
 
-/* Active nav */
-const navLinks = document.querySelectorAll("nav a");
+/* nav active */
+const navLinks=document.querySelectorAll("nav a");
 window.addEventListener("scroll",()=>{
-  const sp = window.scrollY;
+  const sp=window.scrollY;
   sections.forEach((sec,i)=>{
-    if(sp >= sec.offsetTop-220){
-      navLinks.forEach(l=>l.classList.remove("active"));
-      if(navLinks[i]) navLinks[i].classList.add("active");
-    }
+    if(sp>=sec.offsetTop-220){navLinks.forEach(l=>l.classList.remove("active"));if(navLinks[i])navLinks[i].classList.add("active");}
   });
 });
 navLinks.forEach(link=>{
   link.addEventListener("click",e=>{
     e.preventDefault();
-    const t = document.querySelector(link.getAttribute("href"));
-    if(t){ t.scrollIntoView({behavior:"smooth",block:"start"}); navLinks.forEach(l=>l.classList.remove("active")); link.classList.add("active"); }
+    const t=document.querySelector(link.getAttribute("href"));
+    if(t){t.scrollIntoView({behavior:"smooth",block:"start"});navLinks.forEach(l=>l.classList.remove("active"));link.classList.add("active");}
   });
 });
 
-/* Custom cursor */
-const cur = document.createElement("div");
-cur.id = "mouseCursor";
-document.body.appendChild(cur);
+/* cursor */
+const cur=document.createElement("div"); cur.id="mouseCursor"; document.body.appendChild(cur);
 let mx=0,my=0,cx=0,cy=0;
 document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
 (function loop(){cx+=(mx-cx)*0.15;cy+=(my-cy)*0.15;cur.style.left=cx+"px";cur.style.top=cy+"px";requestAnimationFrame(loop);})();
-document.querySelectorAll("a,button,.card,.plan-card,.work-card,.review-card").forEach(el=>{
-  el.addEventListener("mouseenter",()=>{cur.style.width="32px";cur.style.height="32px";cur.style.background="rgba(0,200,255,0.20)";cur.style.borderColor="rgba(0,200,255,0.50)";});
-  el.addEventListener("mouseleave",()=>{cur.style.width="22px";cur.style.height="22px";cur.style.background="rgba(0,230,200,0.16)";cur.style.borderColor="rgba(0,230,200,0.40)";});
-});
+function attachCursor(sel){
+  document.querySelectorAll(sel).forEach(el=>{
+    el.addEventListener("mouseenter",()=>{cur.style.width="32px";cur.style.height="32px";cur.style.background="rgba(0,200,255,0.20)";cur.style.borderColor="rgba(0,200,255,0.50)";});
+    el.addEventListener("mouseleave",()=>{cur.style.width="22px";cur.style.height="22px";cur.style.background="rgba(0,230,200,0.16)";cur.style.borderColor="rgba(0,230,200,0.40)";});
+  });
+}
+attachCursor("a,button,.card,.plan-card,.work-card,.review-card");
 
-/* Scroll progress */
-const prog = document.createElement("div");
-prog.id = "scrollProgress";
-document.body.appendChild(prog);
+/* scroll progress */
+const prog=document.createElement("div"); prog.id="scrollProgress"; document.body.appendChild(prog);
 window.addEventListener("scroll",()=>{
   const t=window.pageYOffset,h=document.documentElement.scrollHeight-document.documentElement.clientHeight;
   prog.style.width=(t/h*100)+"%";
 });
 
-/* 3D card tilt */
+/* 3D tilt */
 document.querySelectorAll(".card").forEach(c=>{
   c.addEventListener("mousemove",e=>{
     const r=c.getBoundingClientRect();
-    const rx=((e.clientY-r.top)-r.height/2)/10, ry=(r.width/2-(e.clientX-r.left))/10;
+    const rx=((e.clientY-r.top)-r.height/2)/10,ry=(r.width/2-(e.clientX-r.left))/10;
     c.style.transform=`perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-20px) scale(1.05)`;
   });
   c.addEventListener("mouseleave",()=>c.style.transform="");
 });
 </script>
 </body>
-</html>
