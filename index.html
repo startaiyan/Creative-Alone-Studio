@@ -7,6 +7,117 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@300;400;700;800&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 
 <style>
+/* ══════════════════════════════════════════════
+   CINEMATIC INTRO
+══════════════════════════════════════════════ */
+#introLoader{
+  position:fixed;
+  inset:0;
+  background:#020202;
+  z-index:999999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  animation:introHide 1.2s ease forwards;
+  animation-delay:2.2s;
+}
+.intro-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(0,255,179,0.15),transparent 35%),
+    radial-gradient(circle at 80% 30%,rgba(0,140,255,0.15),transparent 35%),
+    radial-gradient(circle at 50% 80%,rgba(255,195,90,0.10),transparent 40%);
+  filter:blur(80px);
+  animation:introBgMove 8s infinite alternate ease-in-out;
+}
+@keyframes introBgMove{
+  0%{transform:scale(1);}
+  100%{transform:scale(1.25) rotate(6deg);}
+}
+.intro-center{
+  position:relative;
+  text-align:center;
+  z-index:2;
+  padding:20px;
+}
+.intro-small{
+  font-size:12px;
+  letter-spacing:8px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+  margin-bottom:18px;
+  font-family:'Space Grotesk',sans-serif;
+  animation:introFadeUp 1s ease forwards;
+  opacity:0;
+}
+.intro-main{
+  font-size:clamp(40px,10vw,110px);
+  font-weight:900;
+  font-family:'Space Grotesk',sans-serif;
+  background:linear-gradient(135deg,#fff 0%,#00ffb3 45%,#008cff 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  filter:drop-shadow(0 0 30px rgba(0,255,179,0.45));
+  animation:introTitleReveal 1.8s cubic-bezier(.175,.885,.32,1.275) forwards;
+  transform:scale(.8);
+  opacity:0;
+}
+@keyframes introTitleReveal{
+  0%{opacity:0;transform:scale(.75) translateY(40px);filter:blur(10px);}
+  100%{opacity:1;transform:scale(1) translateY(0);filter:blur(0);}
+}
+.intro-line{
+  width:0;
+  height:2px;
+  margin:24px auto;
+  background:linear-gradient(90deg,#00ffb3,#008cff);
+  box-shadow:0 0 18px rgba(0,255,179,0.8);
+  animation:introLineGrow 1.2s ease forwards;
+  animation-delay:1.2s;
+}
+@keyframes introLineGrow{
+  0%{width:0;opacity:0;}
+  100%{width:240px;opacity:1;}
+}
+.intro-sub{
+  font-size:14px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.55);
+  font-family:'Playfair Display',serif;
+  animation:introFadeUp 1.4s ease forwards;
+  animation-delay:1.6s;
+  opacity:0;
+}
+@keyframes introFadeUp{
+  0%{opacity:0;transform:translateY(25px);filter:blur(8px);}
+  100%{opacity:1;transform:translateY(0);filter:blur(0);}
+}
+@keyframes introHide{
+  0%{opacity:1;visibility:visible;}
+  100%{opacity:0;visibility:hidden;pointer-events:none;}
+}
+.intro-particle{
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+  filter:blur(1px);
+  animation:introParticleFloat linear forwards;
+}
+@keyframes introParticleFloat{
+  0%{transform:translateY(40px) scale(0);opacity:0;}
+  20%{opacity:1;}
+  100%{transform:translateY(-120vh) scale(1.8);opacity:0;}
+}
+
+/* ══════════════════════════════════════════════
+   MAIN SITE
+══════════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;scroll-snap-type:y mandatory;}
 body{background:#030303;color:#fff;overflow-x:hidden;font-family:'Space Grotesk',Inter,sans-serif;}
@@ -103,8 +214,6 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 .reviewer-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,rgba(0,255,179,0.25),rgba(0,140,255,0.2));border:1px solid rgba(0,255,179,0.3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#00ffb3;flex-shrink:0;}
 .reviewer-name{font-size:14px;font-weight:700;color:#fff;display:block;}
 .reviewer-proj{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-top:2px;}
-
-/* ── REVIEW FORM ── */
 .review-form-wrap{width:100%;max-width:1080px;padding:0 20px;margin-top:48px;}
 .review-form-box{border-radius:28px;padding:40px 36px;background:linear-gradient(150deg,rgba(14,14,14,0.72),rgba(5,5,5,0.5));backdrop-filter:blur(40px) saturate(160%);border:1px solid rgba(0,255,179,0.18);box-shadow:0 12px 44px rgba(0,0,0,0.4),0 0 50px rgba(0,255,179,0.06),inset 0 1px 0 rgba(255,255,255,0.08);position:relative;overflow:hidden;}
 .review-form-box::before{content:"";position:absolute;inset:-1px;border-radius:28px;background:linear-gradient(135deg,rgba(0,255,179,0.10),rgba(0,140,255,0.06),transparent);z-index:-1;filter:blur(14px);}
@@ -128,7 +237,6 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 .form-submit:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
 .form-success{display:none;text-align:center;padding:18px;background:linear-gradient(135deg,rgba(0,255,179,0.10),rgba(0,180,255,0.06));border-radius:14px;border:1px solid rgba(0,255,179,0.22);margin-top:14px;font-size:14px;color:#00ffb3;font-weight:700;letter-spacing:1px;animation:fadeUp 0.5s ease;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-
 .info-content{max-width:940px;padding:58px 48px;border-radius:40px;background:linear-gradient(150deg,rgba(14,14,14,0.72),rgba(5,5,5,0.5));backdrop-filter:blur(55px) saturate(180%);border:1px solid rgba(255,255,255,0.16);text-align:left;position:relative;box-shadow:0 20px 65px rgba(0,0,0,0.55),inset 0 1px 0 rgba(255,255,255,0.14),0 0 80px rgba(0,255,179,0.08);}
 .info-content::before{content:"";position:absolute;inset:-2px;border-radius:40px;background:linear-gradient(135deg,rgba(0,255,179,0.12),rgba(0,140,255,0.08),rgba(0,200,240,0.06));z-index:-1;opacity:0.5;filter:blur(20px);}
 .info-content h2{font-size:clamp(20px,3.5vw,36px);background:linear-gradient(135deg,#00ffb3,#008cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:38px;margin-bottom:18px;font-weight:800;letter-spacing:1px;}
@@ -145,8 +253,163 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 #scrollProgress{position:fixed;top:0;left:0;width:0%;height:2.5px;background:linear-gradient(90deg,rgba(0,240,200,0.9),rgba(0,190,255,0.9),rgba(100,240,220,0.9));z-index:10001;filter:blur(0.4px);box-shadow:0 0 10px rgba(0,220,200,0.6),0 0 20px rgba(0,190,255,0.4);transition:width 0.08s ease;}
 .whatsapp{position:fixed;bottom:32px;right:32px;padding:14px 26px;background:linear-gradient(135deg,#25D366,#1ead57);color:#fff;border-radius:50px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 8px 28px rgba(37,211,102,0.5),0 0 36px rgba(37,211,102,0.28);transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);z-index:1001;border:2px solid rgba(255,255,255,0.18);letter-spacing:0.5px;display:flex;align-items:center;gap:7px;}
 .whatsapp:hover{transform:translateY(-5px) scale(1.1);box-shadow:0 14px 40px rgba(37,211,102,0.65),0 0 55px rgba(37,211,102,0.4);}
+/* ══════════════════════════════════════════════
+   ALL REVIEWS PAGE
+══════════════════════════════════════════════ */
+.ar-wrap{width:100%;max-width:1100px;padding:0 20px;}
+
+/* Featured quote banner */
+.ar-featured{
+  position:relative;
+  border-radius:34px;
+  padding:52px 56px;
+  margin-bottom:44px;
+  background:linear-gradient(135deg,rgba(0,255,179,0.08),rgba(0,140,255,0.06),rgba(14,14,14,0.7));
+  backdrop-filter:blur(40px);
+  border:1px solid rgba(0,255,179,0.22);
+  box-shadow:0 0 80px rgba(0,255,179,0.08),0 20px 55px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.12);
+  overflow:hidden;
+  text-align:center;
+}
+.ar-featured::before{
+  content:"";position:absolute;inset:-1px;border-radius:34px;
+  background:linear-gradient(135deg,rgba(0,255,179,0.18),rgba(0,140,255,0.10),transparent 60%);
+  z-index:-1;filter:blur(18px);
+}
+.ar-feat-quote-icon{
+  font-family:'Playfair Display',serif;font-size:120px;line-height:0.6;
+  color:rgba(0,255,179,0.12);display:block;margin-bottom:18px;
+  animation:arQuoteFloat 4s ease-in-out infinite alternate;
+}
+@keyframes arQuoteFloat{from{transform:translateY(0);}to{transform:translateY(-8px);}}
+.ar-feat-text{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(16px,2.2vw,22px);line-height:1.9;
+  color:rgba(255,255,255,0.88);max-width:720px;margin:0 auto 24px;
+}
+.ar-feat-meta{display:flex;align-items:center;justify-content:center;gap:14px;}
+.ar-feat-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(0,255,179,0.3),rgba(0,140,255,0.2));
+  border:2px solid rgba(0,255,179,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;font-weight:800;color:#00ffb3;
+}
+.ar-feat-name{font-size:15px;font-weight:700;color:#fff;}
+.ar-feat-proj{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);}
+.ar-feat-stars{font-size:18px;color:#ffc35a;letter-spacing:3px;margin-bottom:4px;}
+.ar-feat-badge{
+  display:inline-block;margin-bottom:22px;
+  padding:5px 16px;border-radius:999px;
+  background:linear-gradient(135deg,rgba(0,255,179,0.18),rgba(0,140,255,0.12));
+  border:1px solid rgba(0,255,179,0.30);
+  font-size:10px;font-weight:700;letter-spacing:2.5px;
+  text-transform:uppercase;color:#00ffb3;
+}
+
+/* Stats row */
+.ar-stats{display:flex;gap:18px;margin-bottom:40px;flex-wrap:wrap;}
+.ar-stat{
+  flex:1;min-width:140px;
+  padding:22px 24px;border-radius:20px;text-align:center;
+  background:linear-gradient(135deg,rgba(14,14,14,0.65),rgba(5,5,5,0.5));
+  backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 6px 24px rgba(0,0,0,0.35);
+  transition:all 0.4s ease;
+}
+.ar-stat:hover{transform:translateY(-6px);border-color:rgba(0,255,179,0.22);}
+.ar-stat-num{
+  font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:800;
+  background:linear-gradient(135deg,#fff 20%,#00ffb3);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 12px rgba(0,255,179,0.35));
+}
+.ar-stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:5px;}
+
+/* Filter tabs */
+.ar-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;justify-content:center;}
+.ar-filter-btn{
+  padding:9px 20px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5);
+  font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;
+  transition:all 0.3s ease;
+}
+.ar-filter-btn:hover{border-color:rgba(0,255,179,0.3);color:rgba(255,255,255,0.85);}
+.ar-filter-btn.active{
+  background:linear-gradient(135deg,rgba(0,255,179,0.18),rgba(0,140,255,0.10));
+  border-color:rgba(0,255,179,0.38);color:#00ffb3;
+  box-shadow:0 0 18px rgba(0,255,179,0.18);
+}
+
+/* Masonry grid */
+.ar-grid{
+  columns:3;column-gap:18px;
+}
+@media(max-width:900px){.ar-grid{columns:2;}}
+@media(max-width:560px){.ar-grid{columns:1;}}
+
+.ar-card{
+  break-inside:avoid;
+  margin-bottom:18px;
+  padding:26px 24px;
+  border-radius:22px;
+  background:linear-gradient(150deg,rgba(14,14,14,0.65),rgba(5,5,5,0.45));
+  backdrop-filter:blur(28px);
+  border:1px solid rgba(255,255,255,0.08);
+  box-shadow:0 6px 28px rgba(0,0,0,0.35);
+  transition:all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+  position:relative;overflow:hidden;
+  animation:arCardIn 0.5s ease forwards;
+  opacity:0;
+}
+@keyframes arCardIn{
+  from{opacity:0;transform:translateY(20px) scale(0.97);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+.ar-card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(0,255,179,0.22);
+  box-shadow:0 18px 48px rgba(0,0,0,0.5),0 0 28px rgba(0,255,179,0.10);
+}
+.ar-card-flag{
+  position:absolute;top:16px;right:16px;font-size:20px;
+  filter:drop-shadow(0 0 6px rgba(0,0,0,0.5));
+}
+.ar-card-stars{font-size:14px;letter-spacing:2px;color:#ffc35a;margin-bottom:12px;}
+.ar-card-text{
+  font-size:13.5px;line-height:1.85;color:rgba(255,255,255,0.78);
+  font-style:italic;margin-bottom:16px;
+  padding-left:12px;border-left:2px solid rgba(0,255,179,0.3);
+}
+.ar-card-bottom{display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.06);}
+.ar-card-avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(0,255,179,0.22),rgba(0,140,255,0.15));
+  border:1px solid rgba(0,255,179,0.28);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#00ffb3;
+}
+.ar-card-name{font-size:13px;font-weight:700;color:#fff;}
+.ar-card-proj{
+  display:inline-block;margin-top:3px;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:#030303;font-weight:700;
+  background:linear-gradient(135deg,#00ffb3,#008cff);
+  padding:2px 8px;border-radius:99px;
+}
+.ar-empty{
+  text-align:center;padding:60px 20px;
+  color:rgba(255,255,255,0.3);font-size:14px;letter-spacing:2px;
+  text-transform:uppercase;
+}
+
 @media(max-width:768px){
-  nav a{font-size:10px;padding:7px 10px;}
+  .ar-featured{padding:32px 24px;}
+  .ar-stats{gap:10px;}
+}
+
   .hero{padding:55px 24px;}
   .grid,.plans-grid,.work-grid,.reviews-grid{grid-template-columns:1fr;}
   .info-content{padding:28px 18px;}
@@ -159,6 +422,22 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════════
+     CINEMATIC INTRO LOADER
+══════════════════════════════════════════════ -->
+<div id="introLoader">
+  <div class="intro-bg"></div>
+  <div class="intro-center">
+    <div class="intro-small">Creative Alone Studio</div>
+    <div class="intro-main">TAIYAN NOOR</div>
+    <div class="intro-line"></div>
+    <div class="intro-sub">Cinematic Storytelling Experience</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     MAIN SITE
+══════════════════════════════════════════════ -->
 <div class="grain"></div>
 <div class="srt-layer" id="srtLayer"></div>
 <nav id="mainNav"></nav>
@@ -168,10 +447,34 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 <section id="prev-work"></section>
 <section id="plans"></section>
 <section id="reviews"></section>
+<section id="all-reviews"></section>
 <section id="info"></section>
 <div id="whatsappBtn"></div>
 
 <script>
+/* ══════════════════════════════════════════════
+   INTRO PARTICLES
+══════════════════════════════════════════════ */
+(function(){
+  const intro = document.getElementById("introLoader");
+  for(let i = 0; i < 55; i++){
+    const p = document.createElement("div");
+    p.className = "intro-particle";
+    const size = Math.random() * 5 + 2;
+    p.style.width  = size + "px";
+    p.style.height = size + "px";
+    p.style.left   = Math.random() * 100 + "%";
+    p.style.bottom = "-20px";
+    const dur = Math.random() * 6 + 4;
+    p.style.animationDuration = dur + "s";
+    p.style.animationDelay   = Math.random() * 4 + "s";
+    p.style.background = Math.random() > 0.5
+      ? "rgba(0,255,179,0.8)"
+      : "rgba(0,140,255,0.8)";
+    intro.appendChild(p);
+  }
+})();
+
 /* ══════════════════════════════════════════════
    DATA
 ══════════════════════════════════════════════ */
@@ -183,6 +486,7 @@ const SITE = {
     {label:"Previous Work",    href:"#prev-work"},
     {label:"Plans",            href:"#plans"},
     {label:"Reviews",          href:"#reviews"},
+    {label:"All Reviews",      href:"#all-reviews"},
     {label:"Info",             href:"#info"}
   ],
   hero:{
@@ -237,14 +541,12 @@ const SITE = {
     ratingScore:"4.9",ratingStars:"★★★★★",
     ratingCount:"Based on 50+ completed projects",
     list:[
-      /* Bangladesh */
       {stars:"★★★★★",text:"The edit was beyond what I imagined. The color grading gave the whole piece a cinematic feel I've never seen from a freelancer before. Absolutely world-class work.",           name:"Mahir Rahman",      initials:"MR",project:"Brand Film",    flag:"🇧🇩"},
       {stars:"★★★★★",text:"Our music video came out stunning. The motion graphics were fire and the pacing was perfect. Taiyan Noor really understands the mood you're going for.",                      name:"Safia Akter",       initials:"SA",project:"Music Video",   flag:"🇧🇩"},
       {stars:"★★★★☆",text:"Great attention to detail on the transitions and VFX. The documentary felt raw yet polished — exactly the balance I wanted. Very responsive to feedback.",                   name:"Rina Khatun",       initials:"RK",project:"Documentary",   flag:"🇧🇩"},
       {stars:"★★★★★",text:"Taiyan brought creative ideas I hadn't even thought of. The final event video was absolutely cinematic and our audience was blown away at the screening.",                   name:"Zayed Hossain",     initials:"ZH",project:"Event Coverage",flag:"🇧🇩"},
       {stars:"★★★★★",text:"Delivered on time, communicated clearly, and the final output was professional-grade. I'll definitely keep working with Creative Alone Studio for all future projects.",      name:"Nabeel Islam",      initials:"NI",project:"Commercial Ad", flag:"🇧🇩"},
       {stars:"★★★★★",text:"The best editor I have worked with in Bangladesh. The Premium Pack was worth every bit. My brand film got thousands of reactions on launch day.",                            name:"Tasnim Mehrin",     initials:"TM",project:"Brand Film",    flag:"🇧🇩"},
-      /* International */
       {stars:"★★★★★",text:"Absolutely incredible quality. The color palette and transitions gave our campaign a premium Hollywood feel. I've worked with editors in LA — this level matches them easily.",name:"James Whitfield",   initials:"JW",project:"Commercial Ad", flag:"🇺🇸"},
       {stars:"★★★★★",text:"Ich bin beeindruckt! The storytelling flow in our documentary was flawless. Taiyan understood our creative vision immediately and delivered something truly cinematic.",        name:"Leon Becker",       initials:"LB",project:"Documentary",   flag:"🇩🇪"},
       {stars:"★★★★★",text:"Exceptional editing. The music video cut was tight, rhythmic, and visually stunning. Our YouTube comments are full of people asking who edited this — amazing work.",        name:"Lucas Moreau",      initials:"LM",project:"Music Video",   flag:"🇫🇷"},
@@ -352,7 +654,7 @@ document.getElementById("mainNav").innerHTML=
   </div>`).join("")}</div>`;
 })();
 
-/* REVIEWS (async — loads stored) */
+/* REVIEWS */
 async function renderReviews(){
   const rv=SITE.reviews;
   const userReviews=await loadUserReviews();
@@ -369,7 +671,6 @@ async function renderReviews(){
     <div class="reviews-grid" id="reviewsGrid">
       ${allReviews.map((r,i)=>reviewCard(r,i>=rv.list.length)).join("")}
     </div>
-
     <div class="review-form-wrap">
       <div class="review-form-box">
         <div class="review-form-title">✍️ Leave a Review</div>
@@ -403,7 +704,6 @@ async function renderReviews(){
       </div>
     </div>`;
 
-  /* star picker */
   let chosen=0;
   const starBtns=document.querySelectorAll(".star-btn");
   function highlightStars(n){ starBtns.forEach(b=>b.classList.toggle("lit",+b.dataset.v<=n)); }
@@ -413,33 +713,102 @@ async function renderReviews(){
     b.addEventListener("click",()=>{ chosen=+b.dataset.v; highlightStars(chosen); });
   });
 
-  /* submit */
   document.getElementById("rfBtn").addEventListener("click", async ()=>{
     const name   =document.getElementById("rfName").value.trim();
     const project=document.getElementById("rfProject").value.trim();
     const text   =document.getElementById("rfText").value.trim();
     if(!name||!project||!text||!chosen){ alert("Please fill in all fields and pick a star rating."); return; }
-
     const r={stars:starsOf(chosen),text,name,initials:mkInitials(name),project,flag:"🌐"};
     const btn=document.getElementById("rfBtn");
     btn.disabled=true; btn.textContent="Publishing…";
-
     const stored=await loadUserReviews();
     stored.push(r);
     await saveUserReviews(stored);
-
     const grid=document.getElementById("reviewsGrid");
     const tmp=document.createElement("div");
     tmp.innerHTML=reviewCard(r,true);
     grid.appendChild(tmp.firstElementChild);
-
     document.getElementById("rfSuccess").style.display="block";
     btn.style.display="none";
-
     attachCursor("a,button,.card,.plan-card,.work-card,.review-card");
   });
 }
 renderReviews();
+
+/* ALL REVIEWS PAGE */
+async function renderAllReviews(){
+  const rv = SITE.reviews;
+  const userReviews = await loadUserReviews();
+  const all = [...rv.list, ...userReviews];
+
+  const featured = all.reduce((a,b)=>b.text.length>a.text.length?b:a, all[0]);
+  const projects = ["All", ...new Set(all.map(r=>r.project))];
+  const statsData = [
+    {num:"4.9★", label:"Average Rating"},
+    {num:all.length+"+", label:"Total Reviews"},
+    {num:"100%", label:"Recommend Us"},
+    {num:"50+", label:"Projects Done"}
+  ];
+
+  document.getElementById("all-reviews").innerHTML = `
+    <h1>All Reviews</h1>
+    <p class="section-sub">Every voice, every story</p>
+    <div class="ar-wrap">
+      <div class="ar-featured">
+        <span class="ar-feat-badge">✦ Featured Review</span>
+        <span class="ar-feat-quote-icon">"</span>
+        <p class="ar-feat-text">${featured.text}</p>
+        <div class="ar-feat-meta">
+          <div class="ar-feat-avatar">${featured.initials||mkInitials(featured.name)}</div>
+          <div style="text-align:left;">
+            <div class="ar-feat-stars">${featured.stars}</div>
+            <div class="ar-feat-name">${featured.flag||"🌐"} ${featured.name}</div>
+            <div class="ar-feat-proj">${featured.project}</div>
+          </div>
+        </div>
+      </div>
+      <div class="ar-stats">
+        ${statsData.map(s=>`<div class="ar-stat">
+          <div class="ar-stat-num">${s.num}</div>
+          <div class="ar-stat-label">${s.label}</div>
+        </div>`).join("")}
+      </div>
+      <div class="ar-filters" id="arFilters">
+        ${projects.map((p,i)=>`<button class="ar-filter-btn${i===0?" active":""}" data-filter="${p}">${p}</button>`).join("")}
+      </div>
+      <div class="ar-grid" id="arGrid"></div>
+    </div>`;
+
+  function renderGrid(filter){
+    const grid = document.getElementById("arGrid");
+    const filtered = filter==="All" ? all : all.filter(r=>r.project===filter);
+    if(!filtered.length){ grid.innerHTML=`<div class="ar-empty">No reviews for this category.</div>`; return; }
+    grid.innerHTML = filtered.map((r,i)=>`
+      <div class="ar-card" style="animation-delay:${i*0.06}s;">
+        <div class="ar-card-flag">${r.flag||"🌐"}</div>
+        <div class="ar-card-stars">${r.stars}</div>
+        <p class="ar-card-text">${r.text}</p>
+        <div class="ar-card-bottom">
+          <div class="ar-card-avatar">${r.initials||mkInitials(r.name)}</div>
+          <div>
+            <div class="ar-card-name">${r.name}</div>
+            <span class="ar-card-proj">${r.project}</span>
+          </div>
+        </div>
+      </div>`).join("");
+  }
+
+  renderGrid("All");
+
+  document.getElementById("arFilters").addEventListener("click", e=>{
+    const btn = e.target.closest(".ar-filter-btn");
+    if(!btn) return;
+    document.querySelectorAll(".ar-filter-btn").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    renderGrid(btn.dataset.filter);
+  });
+}
+renderAllReviews();
 
 /* INFO */
 (()=>{const inf=SITE.info;
@@ -484,8 +853,6 @@ for(let i=0;i<7;i++) setTimeout(spawnSRT,i*280);
 
 /* section reveal */
 const sections=document.querySelectorAll("section");
-new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show");}),{threshold:0.12})
-  .observe||sections.forEach(s=>s.classList.add("show")); // fallback
 const revObs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show");}),{threshold:0.12});
 sections.forEach(s=>revObs.observe(s));
 
@@ -536,3 +903,4 @@ document.querySelectorAll(".card").forEach(c=>{
 });
 </script>
 </body>
+</html>
