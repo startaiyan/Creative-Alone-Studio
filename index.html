@@ -1,4 +1,4 @@
-z<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head><meta name="description" content="Cinematic video editing and motion graphics studio by Taiyan Noor">
 <meta name="keywords" content="video editor, motion graphics, cinematic editing, Bangladesh editor">
@@ -187,164 +187,18 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 .plan-features li{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13.5px;color:rgba(255,255,255,0.80);font-weight:500;}
 .plan-features li:last-child{border-bottom:none;}
 .plan-features .chk{width:18px;height:18px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,rgba(0,255,179,0.22),rgba(0,180,255,0.12));border:1px solid rgba(0,255,179,0.32);display:flex;align-items:center;justify-content:center;font-size:9px;color:#00ffb3;}
-
-/* ══════════════════════════════════════════════
-   NETFLIX VIDEO CARDS
-══════════════════════════════════════════════ */
-.work-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
-  gap:28px;
-  width:100%;
-  max-width:1080px;
-  margin-top:48px;
-  padding:0 20px;
-}
-.work-card{
-  width:100%;
-  height:240px;
-  border-radius:20px;
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-  box-shadow:0 12px 40px rgba(0,0,0,0.6);
-  transition:all 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
-  background:#0a0a0a;
-  border:1px solid rgba(255,255,255,0.08);
-}
-.work-card:hover{
-  transform:scale(1.06) translateY(-10px);
-  box-shadow:0 28px 70px rgba(229,9,20,0.35),0 0 50px rgba(0,255,179,0.15);
-  z-index:10;
-  border-color:rgba(0,255,179,0.30);
-}
-.work-card::before{
-  content:"";
-  position:absolute;
-  inset:-1px;
-  border-radius:20px;
-  background:linear-gradient(135deg,rgba(0,255,179,0.15),rgba(229,9,20,0.10));
-  z-index:-1;
-  opacity:0;
-  transition:0.45s;
-  filter:blur(14px);
-}
+.work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;width:100%;max-width:1080px;margin-top:48px;padding:0 20px;}
+.work-card{border-radius:22px;overflow:hidden;background:rgba(10,10,10,0.6);border:1px solid rgba(255,255,255,0.08);transition:all 0.5s cubic-bezier(0.175,0.885,0.32,1.275);box-shadow:0 8px 36px rgba(0,0,0,0.4);cursor:pointer;position:relative;}
+.work-card::before{content:"";position:absolute;inset:-1px;border-radius:22px;background:linear-gradient(135deg,rgba(0,255,179,0.12),rgba(0,140,255,0.08),transparent);z-index:-1;opacity:0;transition:0.5s;filter:blur(12px);}
+.work-card:hover{transform:translateY(-16px) scale(1.02);border-color:rgba(0,255,179,0.28);box-shadow:0 22px 60px rgba(0,0,0,0.55),0 0 40px rgba(0,255,179,0.12);}
 .work-card:hover::before{opacity:1;}
-
-/* VIDEO IFRAME */
-.work-card iframe{
-  width:100%;
-  height:100%;
-  border:none;
-  pointer-events:none;
-}
-
-/* DARK OVERLAY */
-.work-overlay{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:linear-gradient(to top,rgba(0,0,0,0.85),transparent 50%);
-  opacity:0;
-  transition:0.4s ease;
-  pointer-events:none;
-  z-index:2;
-}
-.work-card:hover .work-overlay{opacity:1;}
-
-/* PLAY BUTTON */
-.work-play-btn{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:75px;
-  height:75px;
-  background:rgba(229,9,20,0.92);
-  border-radius:50%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  opacity:0;
-  transition:0.4s ease;
-  box-shadow:0 8px 25px rgba(229,9,20,0.5);
-  z-index:3;
-  pointer-events:none;
-}
-.work-play-btn::before{
-  content:"▶";
-  color:white;
-  font-size:28px;
-  margin-left:5px;
-}
-.work-card:hover .work-play-btn{
-  opacity:1;
-  animation:videoPulse 1.5s infinite;
-}
-@keyframes videoPulse{
-  0%{transform:translate(-50%,-50%) scale(1);box-shadow:0 8px 25px rgba(229,9,20,0.5);}
-  50%{transform:translate(-50%,-50%) scale(1.12);box-shadow:0 12px 35px rgba(229,9,20,0.7);}
-  100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 8px 25px rgba(229,9,20,0.5);}
-}
-
-/* INFO SECTION */
-.work-info{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  padding:20px 22px;
-  transform:translateY(100%);
-  transition:0.4s ease;
-  z-index:4;
-}
-.work-card:hover .work-info{transform:translateY(0);}
-.work-type{
-  font-size:10px;
-  letter-spacing:2.5px;
-  text-transform:uppercase;
-  color:#00ffb3;
-  font-weight:600;
-  opacity:0.9;
-  text-shadow:0 0 8px rgba(0,255,179,0.6);
-}
-.work-title{
-  font-size:17px;
-  font-weight:700;
-  margin:6px 0 4px;
-  color:#fff;
-  letter-spacing:0.5px;
-}
-.work-year{
-  font-size:11px;
-  color:rgba(255,255,255,0.45);
-  letter-spacing:1px;
-}
-
-/* BADGE */
-.work-badge{
-  position:absolute;
-  top:14px;
-  right:14px;
-  background:rgba(229,9,20,0.9);
-  color:white;
-  padding:5px 12px;
-  border-radius:6px;
-  font-size:11px;
-  font-weight:700;
-  z-index:4;
-  opacity:0;
-  transition:0.4s ease;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  box-shadow:0 4px 12px rgba(229,9,20,0.4);
-}
-.work-card:hover .work-badge{opacity:1;}
-
-/* ══════════════════════════════════════════════ */
-
+.work-thumb{width:100%;height:200px;position:relative;overflow:hidden;}
+.work-thumb::after{content:"▶";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:36px;color:rgba(255,255,255,0);transition:0.4s;background:rgba(0,0,0,0);}
+.work-card:hover .work-thumb::after{color:rgba(255,255,255,0.9);background:rgba(0,0,0,0.35);text-shadow:0 0 30px rgba(0,255,179,0.8);}
+.work-info{padding:20px 22px 24px;}
+.work-type{font-size:10px;letter-spacing:2.5px;text-transform:uppercase;color:#00ffb3;font-weight:600;opacity:0.8;}
+.work-title{font-size:17px;font-weight:700;margin:6px 0 4px;color:#fff;letter-spacing:0.5px;}
+.work-year{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:1px;}
 .rating-hero{text-align:center;margin-top:40px;margin-bottom:14px;}
 .rating-big{font-family:'Space Grotesk',sans-serif;font-size:86px;font-weight:800;line-height:1;background:linear-gradient(135deg,#fff 20%,#00ffb3 60%,#008cff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 30px rgba(0,255,179,0.4));}
 .rating-stars-big{font-size:30px;letter-spacing:6px;color:#ffc35a;text-shadow:0 0 14px rgba(255,195,90,0.6);margin:6px 0;}
@@ -405,6 +259,8 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
    ALL REVIEWS PAGE
 ══════════════════════════════════════════════ */
 .ar-wrap{width:100%;max-width:1100px;padding:0 20px;}
+
+/* Featured quote banner */
 .ar-featured{
   position:relative;
   border-radius:34px;
@@ -452,6 +308,8 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
   font-size:10px;font-weight:700;letter-spacing:2.5px;
   text-transform:uppercase;color:#00ffb3;
 }
+
+/* Stats row */
 .ar-stats{display:flex;gap:18px;margin-bottom:40px;flex-wrap:wrap;}
 .ar-stat{
   flex:1;min-width:140px;
@@ -470,6 +328,8 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
   filter:drop-shadow(0 0 12px rgba(0,255,179,0.35));
 }
 .ar-stat-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:5px;}
+
+/* Filter tabs */
 .ar-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:32px;justify-content:center;}
 .ar-filter-btn{
   padding:9px 20px;border-radius:999px;border:1px solid rgba(255,255,255,0.12);
@@ -484,6 +344,8 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
   border-color:rgba(0,255,179,0.38);color:#00ffb3;
   box-shadow:0 0 18px rgba(0,255,179,0.18);
 }
+
+/* Masonry grid */
 .ar-grid{
   columns:3;column-gap:18px;
 }
@@ -548,9 +410,10 @@ h1::after{content:"";position:absolute;bottom:-14px;left:50%;transform:translate
 @media(max-width:768px){
   .ar-featured{padding:32px 24px;}
   .ar-stats{gap:10px;}
+}
+
   .hero{padding:55px 24px;}
   .grid,.plans-grid,.work-grid,.reviews-grid{grid-template-columns:1fr;}
-  .work-grid{grid-template-columns:1fr;}
   .info-content{padding:28px 18px;}
   .plan-card.standard{transform:scale(1);}
   .rating-big{font-size:64px;}
@@ -654,14 +517,14 @@ const SITE = {
     ]
   },
   work:{
-    title:"Previous Work",subtitle:"Selected Video Projects",
+    title:"Previous Work",subtitle:"Selected Projects",
     projects:[
-      {type:"Brand Film",    title:"Echoes of Motion", year:"2024", videoId:"NANf8EUnFDM", badge:"TRENDING"},
-      {type:"Music Video",   title:"Neon Frequency",   year:"2024", videoId:"dQw4w9WgXcQ", badge:"POPULAR"},
-      {type:"Documentary",   title:"City of Layers",   year:"2023", videoId:"jNQXAC9IVRw", badge:"NEW"},
-      {type:"Commercial",    title:"Silent Campaign",  year:"2023", videoId:"9bZkp7q19f0", badge:"EXCLUSIVE"},
-      {type:"Short Film",    title:"After the Rain",   year:"2023", videoId:"kJQP7kiw5Fk", badge:"FEATURED"},
-      {type:"Event Coverage",title:"Momentum Live",    year:"2022", videoId:"L_jWHffIx5E", badge:"HOT"}
+      {type:"Brand Film",    title:"Echoes of Motion", year:"2024",bg:"linear-gradient(135deg,#010f08,#003320 40%,#00ffb3 200%)",link:"#"},
+      {type:"Music Video",   title:"Neon Frequency",   year:"2024",bg:"linear-gradient(135deg,#05080f,#001428 40%,#0088ff 200%)",link:"#"},
+      {type:"Documentary",   title:"City of Layers",   year:"2023",bg:"linear-gradient(135deg,#0f0800,#1a0a00 40%,#ffc35a 200%)",link:"#"},
+      {type:"Commercial",    title:"Silent Campaign",  year:"2023",bg:"linear-gradient(135deg,#06000f,#100020 40%,#a855f7 200%)",link:"#"},
+      {type:"Short Film",    title:"After the Rain",   year:"2023",bg:"linear-gradient(135deg,#000a0f,#001520 40%,#00d4ff 200%)",link:"#"},
+      {type:"Event Coverage",title:"Momentum Live",    year:"2022",bg:"linear-gradient(135deg,#080c00,#111800 40%,#a3e635 200%)",link:"#"}
     ]
   },
   plans:{
@@ -691,7 +554,7 @@ const SITE = {
       {stars:"★★★★★",text:"Exceptional editing. The music video cut was tight, rhythmic, and visually stunning. Our YouTube comments are full of people asking who edited this — amazing work.",        name:"Lucas Moreau",      initials:"LM",project:"Music Video",   flag:"🇫🇷"},
       {stars:"★★★★★",text:"I sent rough footage and received a cinematic masterpiece. The sound design alone was worth every penny. Will return for all future brand content without question.",         name:"Priya Nair",        initials:"PN",project:"Brand Film",    flag:"🇮🇳"},
       {stars:"★★★★★",text:"Top-tier post production. The VFX compositing was seamless and the overall cinematic quality blew our clients away. Highly recommend for any international project.",        name:"Sophie Harrington", initials:"SH",project:"Brand Film",    flag:"🇬🇧"},
-      {stars:"★★★★★",text:"质量超乎预期。剪辑节奏完美,色彩分级让整个影片看起来像好莱坞出品。非常专业,强烈推荐!",                                                                                      name:"Wei Zhao",          initials:"WZ",project:"Short Film",    flag:"🇨🇳"}
+      {stars:"★★★★★",text:"质量超乎预期。剪辑节奏完美，色彩分级让整个影片看起来像好莱坞出品。非常专业，强烈推荐！",                                                                                      name:"Wei Zhao",          initials:"WZ",project:"Short Film",    flag:"🇨🇳"}
     ]
   },
   info:{
@@ -769,23 +632,16 @@ document.getElementById("mainNav").innerHTML=
   <div class="grid">${s.items.map(it=>`<div class="card"><div style="font-size:28px;margin-bottom:12px;">${it.icon}</div>${it.label}</div>`).join("")}</div>`;
 })();
 
-/* WORK - NETFLIX STYLE VIDEO CARDS */
+/* WORK */
 (()=>{const w=SITE.work;
   document.getElementById("prev-work").innerHTML=`<h1>${w.title}</h1><p class="section-sub">${w.subtitle}</p>
-  <div class="work-grid">${w.projects.map(p=>`<div class="work-card">
-    <iframe 
-      src="https://www.youtube.com/embed/${p.videoId}?autoplay=0&controls=1&rel=0&modestbranding=1"
-      allowfullscreen>
-    </iframe>
-    <div class="work-overlay"></div>
-    <div class="work-play-btn"></div>
-    <div class="work-badge">${p.badge}</div>
+  <div class="work-grid">${w.projects.map(p=>`<div class="work-card" onclick="if('${p.link}'!=='#')location.href='${p.link}'">
+    <div class="work-thumb" style="background:${p.bg};"></div>
     <div class="work-info">
       <span class="work-type">${p.type}</span>
       <div class="work-title">${p.title}</div>
       <span class="work-year">${p.year}</span>
-    </div>
-  </div>`).join("")}</div>`;
+    </div></div>`).join("")}</div>`;
 })();
 
 /* PLANS */
